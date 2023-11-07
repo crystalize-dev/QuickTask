@@ -1,0 +1,33 @@
+* {
+    scroll-behavior: smooth;
+}
+
+img,
+button,
+a {
+    user-select: none;
+}
+
+.wrapper[data-theme='light'] {
+    --background: white;
+}
+.wrapper[data-theme='dark'] {
+    --background: #292929;
+}
+.wrapper::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--background);
+}
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: #871888;
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        scrollbar-width: 0 !important;
+    }
+
+    .wrapper::-webkit-scrollbar {
+        display: none !important;
+    }
+}
