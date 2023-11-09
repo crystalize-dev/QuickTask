@@ -1,76 +1,30 @@
-import clsx from 'clsx';
-import FocusTrap from 'focus-trap-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
-import { Dispatch, SetStateAction } from 'react';
-
 interface ModalProps {
+    isVisible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
     children: React.ReactNode;
-    showModal: boolean;
-    setShowModal: Dispatch<SetStateAction<boolean>>;
-    containerClasses?: string;
 }
 
-export default function Modal({
-    children,
-    showModal,
-    setShowModal,
-    containerClasses
-}: ModalProps) {
-    const desktopModalRef = React.useRef(null);
-
-    const onKeyDown = React.useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setShowModal(false);
-            }
-        },
-        [setShowModal]
-    );
-
-    React.useEffect(() => {
-        document.addEventListener('keydown', onKeyDown);
-        return () => document.removeEventListener('keydown', onKeyDown);
-    }, [onKeyDown]);
-
+export default function Modal({ isVisible, setVisible, children }: ModalProps) {
     return (
-        <AnimatePresence>
-            {showModal && (
-                <>
-                    <FocusTrap focusTrapOptions={{ initialFocus: false }}>
-                        <motion.div
-                            ref={desktopModalRef}
-                            key="desktop-modal"
-                            className="fixed inset-0 z-40 hidden min-h-screen items-center justify-center md:flex"
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            onMouseDown={(e) => {
-                                if (desktopModalRef.current === e.target) {
-                                    setShowModal(false);
-                                }
-                            }}
-                        >
-                            <div
-                                className={clsx(
-                                    `overflow relative w-full max-w-lg transform rounded-xl border border-gray-200 bg-white p-6 text-left shadow-2xl transition-all`,
-                                    containerClasses
-                                )}
-                            >
-                                {children}
-                            </div>
-                        </motion.div>
-                    </FocusTrap>
-                    <motion.div
-                        key="desktop-backdrop"
-                        className="fixed inset-0 z-30 bg-gray-100 bg-opacity-10 backdrop-blur"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setShowModal(false)}
-                    />
-                </>
+        <AnimatePresence initial={false}>
+            {isVisible && (
+                <motion.div
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0 }}
+                    className="fixed left-0 top-0 z-9999 flex h-full w-full items-center justify-center backdrop-blur"
+                    onMouseDown={() => setVisible(false)}
+                >
+                    <div
+                        className="h-full w-full rounded-lg bg-gray-100 p-4 lg:h-fit lg:w-fit"
+                        onMouseDown={(e) => e.stopPropagation()}
+                    >
+                        {children}
+                    </div>
+                </motion.div>
             )}
         </AnimatePresence>
     );

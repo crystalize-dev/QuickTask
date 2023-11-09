@@ -12,9 +12,9 @@ export default {
       },
       colors: {
         'main': "#7c1cf4",
-        'dark-bg': "#292929",
+        'dark-bg': '#292929',
         'darker-bg': '#121212',
-        'dark-obj': "#1d1d1d"
+        'dark-obj': '#1d1d1d'
       },
       zIndex: {
         '99': '99',
