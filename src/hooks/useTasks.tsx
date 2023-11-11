@@ -6,6 +6,7 @@ import Input from '../components/UI/Input';
 import Modal from '../components/Modal';
 import Button from '../components/UI/Button';
 import { findValue } from '../utility/findValue';
+import { showConfirmationModal } from '../utility/copenConfirm';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -53,42 +54,46 @@ export const useTasks = () => {
         setTaskModal(false);
     };
 
-    const removeItem = (
+    const removeItem = async (
         type: 'container' | 'task',
         ContainerId?: UniqueIdentifier,
         taskId?: UniqueIdentifier
     ) => {
         if (!ContainerId && !taskId) return;
 
-        if (type === 'container') {
-            setContainers([
-                ...containers.filter(
-                    (container) => container.id !== ContainerId
-                )
-            ]);
-        } else {
-            const targetContainer = findValue(
-                ContainerId,
-                'container',
-                containers
-            );
+        await showConfirmationModal().then((res) => {
+            if (res) {
+                if (type === 'container') {
+                    setContainers([
+                        ...containers.filter(
+                            (container) => container.id !== ContainerId
+                        )
+                    ]);
+                } else {
+                    const targetContainer = findValue(
+                        ContainerId,
+                        'container',
+                        containers
+                    );
 
-            if (!targetContainer) return;
+                    if (!targetContainer) return;
 
-            const newItems = targetContainer.items.filter(
-                (task) => task.id !== taskId
-            );
+                    const newItems = targetContainer.items.filter(
+                        (task) => task.id !== taskId
+                    );
 
-            targetContainer.items = newItems;
+                    targetContainer.items = newItems;
 
-            setContainers([
-                ...containers.map((container) => {
-                    if (container.id === targetContainer.id)
-                        return targetContainer;
-                    else return container;
-                })
-            ]);
-        }
+                    setContainers([
+                        ...containers.map((container) => {
+                            if (container.id === targetContainer.id)
+                                return targetContainer;
+                            else return container;
+                        })
+                    ]);
+                }
+            }
+        });
     };
 
     const onSumbit = (e: React.FormEvent, type: 'container' | 'task') => {
