@@ -19,7 +19,7 @@ export default function Modal({ isVisible, setVisible, children }: ModalProps) {
                     onMouseDown={() => setVisible(false)}
                 >
                     <div
-                        className="h-full w-full rounded-lg bg-gray-100 p-4 lg:h-fit lg:w-fit"
+                        className="flex h-full w-full justify-center bg-white p-8 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-lg"
                         onMouseDown={(e) => e.stopPropagation()}
                     >
                         {children}

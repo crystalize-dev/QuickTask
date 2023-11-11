@@ -6,16 +6,17 @@ interface InputProps {
     placeholder?: string;
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    label?: string;
 }
 
-const Input = ({ name, value, placeholder, onChange }: InputProps) => {
+const Input = ({ name, value, placeholder, onChange, label }: InputProps) => {
     return (
         <input
             name={name}
             value={value}
             placeholder={placeholder}
             onChange={onChange}
-            className="w-full rounded-lg border p-2 shadow-lg hover:shadow-xl"
+            className="w-full rounded-lg border border-solid border-transparent bg-transparent p-2 shadow-lg outline-none transition-all hover:shadow-xl focus:border-black dark:focus:border-white"
         ></input>
     );
 };

@@ -39,13 +39,13 @@ const Container = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-100 p-4 dark:bg-dark-obj dark:text-white ${
+            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-100 p-4 transition-all dark:bg-dark-obj dark:text-white ${
                 isDragging && 'opacity-50'
             }`}
         >
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-y-1">
-                    <h1 className="text-xl">{title}</h1>
+                    <h1 className="select-none text-xl">{title}</h1>
                     <p className="text-sm">{description}</p>
                 </div>
                 <svg

@@ -11,6 +11,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import Container from './Container';
 import TaskCard from './TaskCard';
 import { findValue } from '../utility/findValue';
+import { AnimatePresence } from 'framer-motion';
 
 interface TaskTableProps {
     containers: ContainerType[];
@@ -36,34 +37,32 @@ export default function TaskTable({
     } = useDrag(containers, setContainers);
 
     return (
-        <div className="mt-10">
-            <div className="grid grid-cols-3 gap-6">
-                <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCorners}
-                    onDragStart={handleDragStart}
-                    onDragMove={handleDragMove}
-                    onDragEnd={handleDragEnd}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCorners}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext
+                    items={containers.map((container) => container.id)}
                 >
-                    <SortableContext
-                        items={containers.map((container) => container.id)}
-                    >
-                        {containers.map((container) => (
-                            <Container
-                                key={container.id}
-                                title={container.title}
-                                id={container.id}
-                                onAddItem={() => {
-                                    setTaskModal(true);
-                                    setCurrentContainerId(container.id);
-                                }}
+                    {containers.map((container) => (
+                        <Container
+                            key={container.id}
+                            title={container.title}
+                            id={container.id}
+                            onAddItem={() => {
+                                setTaskModal(true);
+                                setCurrentContainerId(container.id);
+                            }}
+                        >
+                            <SortableContext
+                                items={container.items.map((item) => item.id)}
                             >
-                                <SortableContext
-                                    items={container.items.map(
-                                        (item) => item.id
-                                    )}
-                                >
-                                    <div className="flex flex-col items-start gap-y-4">
+                                <div className="flex flex-col items-start gap-y-4">
+                                    <AnimatePresence>
                                         {container.items.map((item) => (
                                             <TaskCard
                                                 key={item.id}
@@ -71,55 +70,50 @@ export default function TaskTable({
                                                 id={item.id}
                                             />
                                         ))}
-                                    </div>
-                                </SortableContext>
-                            </Container>
-                        ))}
-                    </SortableContext>
+                                    </AnimatePresence>
+                                </div>
+                            </SortableContext>
+                        </Container>
+                    ))}
+                </SortableContext>
 
-                    <DragOverlay>
-                        {activeId && activeId.toString().includes('item') && (
-                            <TaskCard
-                                id={activeId}
-                                title={String(
-                                    findValue(
-                                        activeId,
-                                        'item',
-                                        containers
-                                    )?.items.find(
-                                        (item) => item.id === activeId
-                                    )?.title
-                                )}
-                            />
-                        )}
-                        {activeId &&
-                            activeId.toString().includes('container') && (
-                                <Container
-                                    id={activeId}
-                                    title={
-                                        findValue(
-                                            activeId,
-                                            'container',
-                                            containers
-                                        )?.title
-                                    }
-                                >
-                                    {findValue(
-                                        activeId,
-                                        'container',
-                                        containers
-                                    )?.items.map((item) => (
-                                        <TaskCard
-                                            key={item.id}
-                                            id={item.id}
-                                            title={item.title}
-                                        />
-                                    ))}
-                                </Container>
+                <DragOverlay>
+                    {activeId && activeId.toString().includes('item') && (
+                        <TaskCard
+                            id={activeId}
+                            title={String(
+                                findValue(
+                                    activeId,
+                                    'item',
+                                    containers
+                                )?.items.find((item) => item.id === activeId)
+                                    ?.title
                             )}
-                    </DragOverlay>
-                </DndContext>
-            </div>
+                        />
+                    )}
+                    {activeId && activeId.toString().includes('container') && (
+                        <Container
+                            id={activeId}
+                            title={
+                                findValue(activeId, 'container', containers)
+                                    ?.title
+                            }
+                        >
+                            {findValue(
+                                activeId,
+                                'container',
+                                containers
+                            )?.items.map((item) => (
+                                <TaskCard
+                                    key={item.id}
+                                    id={item.id}
+                                    title={item.title}
+                                />
+                            ))}
+                        </Container>
+                    )}
+                </DragOverlay>
+            </DndContext>
         </div>
     );
 }

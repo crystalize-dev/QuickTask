@@ -37,6 +37,7 @@ export const useTasks = () => {
 
     const onAddItem = () => {
         if (!taskName) return;
+
         const id = `item-${uuidv4()}`;
         const container = containers.find(
             (item) => item.id === currentContainerId
@@ -54,7 +55,7 @@ export const useTasks = () => {
     const TaskModal = (
         <Modal isVisible={taskModal} setVisible={setTaskModal}>
             <div className="flex w-full flex-col items-start gap-y-4">
-                <h1 className="text-3xl font-bold text-gray-800">Add task</h1>
+                <h1 className="text-3xl font-bold ">Add task</h1>
 
                 <Input
                     type="text"
@@ -71,10 +72,8 @@ export const useTasks = () => {
 
     const ContainerModal = (
         <Modal isVisible={containerModal} setVisible={setContainerModal}>
-            <div className="flex w-full flex-col items-start gap-y-4">
-                <h1 className="text-3xl font-bold text-gray-800">
-                    Add Container
-                </h1>
+            <div className="flex w-full flex-col items-center gap-y-8">
+                <h1 className="text-3xl font-bold ">Add Container</h1>
 
                 <Input
                     type="text"

@@ -1,6 +1,7 @@
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { motion } from 'framer-motion';
 
 type ItemsType = {
     id: UniqueIdentifier;
@@ -22,7 +23,10 @@ const TaskCard = ({ id, title }: ItemsType) => {
         }
     });
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             ref={setNodeRef}
             {...attributes}
             style={{
@@ -51,7 +55,7 @@ const TaskCard = ({ id, title }: ItemsType) => {
                     />
                 </svg>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

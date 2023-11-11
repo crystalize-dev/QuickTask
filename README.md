@@ -1,7 +1,5 @@
 # ToDo:
 
-- Navbar
-- Notifications
 - Trash
 
 - Modal window functionality

@@ -1,17 +1,12 @@
 import React from 'react';
 import './App.css';
-import { NotificationContext } from './context/NotificationContext';
-import { useNotifications } from './hooks/useNotifications';
 import { useScroll } from 'framer-motion';
-import ArrowUp from './components/UI/ArrowUp';
+import ArrowUp from './components/ArrowUp';
 import { useTasks } from './hooks/useTasks';
-import ThemeSwitcher from './components/UI/ThemeSwitcher';
-import Button from './components/UI/Button';
 import TaskTable from './components/TaskTable';
+import Navbar from './components/Navbar';
 
 function App() {
-    const { notifications, addNotification } = useNotifications();
-
     const ref = React.useRef(null);
     const { scrollY } = useScroll({ container: ref });
 
@@ -26,40 +21,24 @@ function App() {
     } = useTasks();
 
     return (
-        <NotificationContext.Provider
-            value={{ notifications, addNotification }}
+        <div
+            ref={ref}
+            className="wrapper h-screen w-screen overflow-y-scroll bg-white px-4 dark:bg-dark-bg"
         >
-            <div
-                ref={ref}
-                className="wrapper h-screen w-screen overflow-y-scroll bg-white dark:bg-dark-bg"
-            >
-                <ThemeSwitcher />
+            <ArrowUp scrollY={scrollY} />
 
-                <ArrowUp scrollY={scrollY} />
-
-                <div className="mx-auto max-w-7xl py-10">
-                    {ContainerModal}
-
-                    {TaskModal}
-
-                    <div className="flex items-center justify-between gap-y-2">
-                        <h1 className="text-3xl font-bold dark:text-white">
-                            QuickTask
-                        </h1>
-                        <Button onClick={() => setContainerModal(true)}>
-                            Add container
-                        </Button>
-                    </div>
-
-                    <TaskTable
-                        containers={containers}
-                        setContainers={setContainers}
-                        setTaskModal={setTaskModal}
-                        setCurrentContainerId={setCurrentContainerId}
-                    />
-                </div>
+            <div className="mx-auto flex max-w-7xl flex-col gap-8 py-10">
+                {ContainerModal}
+                {TaskModal}
+                <Navbar setContainerModal={setContainerModal} />
+                <TaskTable
+                    containers={containers}
+                    setContainers={setContainers}
+                    setTaskModal={setTaskModal}
+                    setCurrentContainerId={setCurrentContainerId}
+                />
             </div>
-        </NotificationContext.Provider>
+        </div>
     );
 }
 
