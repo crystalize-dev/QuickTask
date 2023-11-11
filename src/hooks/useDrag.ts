@@ -4,7 +4,9 @@ import React from "react";
 import { findValue } from "../utility/findValue";
 import { ContainerType } from "../utility/Task-Types";
 
-export const useDrag = (containers: ContainerType[], setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>) => {
+export const useDrag = (containers: ContainerType[], 
+                        setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>, 
+                        removeItem: (type: "container" | "task", conatinerId?: UniqueIdentifier, taskId?: UniqueIdentifier) => void) => {
     const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(
         null
     );
@@ -25,6 +27,7 @@ export const useDrag = (containers: ContainerType[], setContainers: React.Dispat
 
     const handleDragMove = (event: DragMoveEvent) => {
         const { active, over } = event;
+
 
         // Handle Items Sorting
         if (
@@ -123,6 +126,27 @@ export const useDrag = (containers: ContainerType[], setContainers: React.Dispat
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
+
+        // Handle Trash remove
+        if (
+            active.id.toString().includes('item') &&
+            over?.id.toString().includes('trash') &&
+            active &&
+            over
+        ) {
+            if (!active.data.current) return;
+
+            removeItem('task', active.data.current.containerId, active.id)
+        }
+
+        if (
+            active.id.toString().includes('container') &&
+            over?.id.toString().includes('trash') &&
+            active &&
+            over
+        ) {            
+            removeItem('container', active.id)
+        }
 
         // Handle container Sorting
         if (

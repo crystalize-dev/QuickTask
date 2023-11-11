@@ -7,11 +7,20 @@ interface InputProps {
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     label?: string;
+    autoFocus?: boolean;
 }
 
-const Input = ({ name, value, placeholder, onChange, label }: InputProps) => {
+const Input = ({
+    name,
+    value,
+    placeholder,
+    onChange,
+    label,
+    autoFocus
+}: InputProps) => {
     return (
         <input
+            autoFocus={autoFocus}
             name={name}
             value={value}
             placeholder={placeholder}

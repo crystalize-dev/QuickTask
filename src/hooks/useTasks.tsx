@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Input from '../components/UI/Input';
 import Modal from '../components/Modal';
 import Button from '../components/UI/Button';
+import { findValue } from '../utility/findValue';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -35,7 +36,7 @@ export const useTasks = () => {
         setContainerName('');
     };
 
-    const onAddItem = () => {
+    const onAddTask = () => {
         if (!taskName) return;
 
         const id = `item-${uuidv4()}`;
@@ -52,9 +53,64 @@ export const useTasks = () => {
         setTaskModal(false);
     };
 
+    const removeItem = (
+        type: 'container' | 'task',
+        ContainerId?: UniqueIdentifier,
+        taskId?: UniqueIdentifier
+    ) => {
+        if (!ContainerId && !taskId) return;
+
+        if (type === 'container') {
+            setContainers([
+                ...containers.filter(
+                    (container) => container.id !== ContainerId
+                )
+            ]);
+        } else {
+            const targetContainer = findValue(
+                ContainerId,
+                'container',
+                containers
+            );
+
+            if (!targetContainer) return;
+
+            const newItems = targetContainer.items.filter(
+                (task) => task.id !== taskId
+            );
+
+            targetContainer.items = newItems;
+
+            setContainers([
+                ...containers.map((container) => {
+                    if (container.id === targetContainer.id)
+                        return targetContainer;
+                    else return container;
+                })
+            ]);
+        }
+    };
+
+    const onSumbit = (e: React.FormEvent, type: 'container' | 'task') => {
+        e.preventDefault();
+
+        if (type === 'container') {
+            setContainerName('');
+            setContainerModal(false);
+            onAddContainer();
+        } else {
+            setTaskName('');
+            setTaskModal(false);
+            onAddTask();
+        }
+    };
+
     const TaskModal = (
         <Modal isVisible={taskModal} setVisible={setTaskModal}>
-            <div className="flex w-full flex-col items-start gap-y-4">
+            <form
+                className="flex w-full flex-col items-start gap-y-4"
+                onSubmit={(e) => onSumbit(e, 'task')}
+            >
                 <h1 className="text-3xl font-bold ">Add task</h1>
 
                 <Input
@@ -62,29 +118,34 @@ export const useTasks = () => {
                     placeholder="Item title"
                     name="itemTitle"
                     value={taskName}
+                    autoFocus={true}
                     onChange={(e) => setTaskName(e.target.value)}
                 />
 
-                <Button onClick={onAddItem}>Add task</Button>
-            </div>
+                <Button type="submit">Add task</Button>
+            </form>
         </Modal>
     );
 
     const ContainerModal = (
         <Modal isVisible={containerModal} setVisible={setContainerModal}>
-            <div className="flex w-full flex-col items-center gap-y-8">
+            <form
+                className="flex w-full flex-col items-center gap-y-8"
+                onSubmit={(e) => onSumbit(e, 'container')}
+            >
                 <h1 className="text-3xl font-bold ">Add Container</h1>
 
                 <Input
                     type="text"
+                    autoFocus={true}
                     placeholder="Container title"
                     name="containerTitle"
                     value={containerName}
                     onChange={(e) => setContainerName(e.target.value)}
                 />
 
-                <Button onClick={onAddContainer}>Add container</Button>
-            </div>
+                <Button type="submit">Add container</Button>
+            </form>
         </Modal>
     );
 
@@ -106,6 +167,7 @@ export const useTasks = () => {
         setContainers,
         setCurrentContainerId,
         setContainerModal,
-        setTaskModal
+        setTaskModal,
+        removeItem
     };
 };

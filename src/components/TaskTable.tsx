@@ -12,6 +12,7 @@ import Container from './Container';
 import TaskCard from './TaskCard';
 import { findValue } from '../utility/findValue';
 import { AnimatePresence } from 'framer-motion';
+import Trash from './Trash';
 
 interface TaskTableProps {
     containers: ContainerType[];
@@ -20,13 +21,19 @@ interface TaskTableProps {
     setCurrentContainerId: React.Dispatch<
         React.SetStateAction<UniqueIdentifier | undefined>
     >;
+    removeItem: (
+        type: 'container' | 'task',
+        containerId?: UniqueIdentifier,
+        taskId?: UniqueIdentifier
+    ) => void;
 }
 
 export default function TaskTable({
     containers,
     setContainers,
     setTaskModal,
-    setCurrentContainerId
+    setCurrentContainerId,
+    removeItem
 }: TaskTableProps) {
     const {
         activeId,
@@ -34,7 +41,9 @@ export default function TaskTable({
         handleDragEnd,
         handleDragMove,
         handleDragStart
-    } = useDrag(containers, setContainers);
+    } = useDrag(containers, setContainers, removeItem);
+
+    const [showTrash, setShowTrash] = React.useState(false);
 
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -48,15 +57,19 @@ export default function TaskTable({
                 <SortableContext
                     items={containers.map((container) => container.id)}
                 >
+                    <Trash isDragging={showTrash} />
+
                     {containers.map((container) => (
                         <Container
                             key={container.id}
                             title={container.title}
                             id={container.id}
+                            setShowTrash={setShowTrash}
                             onAddItem={() => {
                                 setTaskModal(true);
                                 setCurrentContainerId(container.id);
                             }}
+                            removeItem={removeItem}
                         >
                             <SortableContext
                                 items={container.items.map((item) => item.id)}
@@ -65,9 +78,12 @@ export default function TaskTable({
                                     <AnimatePresence>
                                         {container.items.map((item) => (
                                             <TaskCard
+                                                containerId={container.id}
                                                 key={item.id}
                                                 title={item.title}
                                                 id={item.id}
+                                                setShowTrash={setShowTrash}
+                                                removeItem={removeItem}
                                             />
                                         ))}
                                     </AnimatePresence>

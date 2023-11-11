@@ -17,7 +17,8 @@ function App() {
         setContainers,
         setCurrentContainerId,
         setContainerModal,
-        setTaskModal
+        setTaskModal,
+        removeItem
     } = useTasks();
 
     return (
@@ -33,6 +34,7 @@ function App() {
                 <Navbar setContainerModal={setContainerModal} />
                 <TaskTable
                     containers={containers}
+                    removeItem={removeItem}
                     setContainers={setContainers}
                     setTaskModal={setTaskModal}
                     setCurrentContainerId={setCurrentContainerId}

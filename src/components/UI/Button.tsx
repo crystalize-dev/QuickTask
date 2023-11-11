@@ -1,16 +1,18 @@
 import React from 'react';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    onClick: (() => void) | undefined;
+    onClick?: (() => void) | undefined;
     children: React.ReactNode;
     variant?: 'ghost';
     className?: string;
+    type?: 'button' | 'submit' | 'reset' | undefined;
 }
 
 export default function Button({
     children,
     variant,
     onClick,
+    type,
     className
 }: ButtonProps) {
     const getStyle = () => {
@@ -26,6 +28,7 @@ export default function Button({
 
     return (
         <button
+            type={type}
             onClick={onClick}
             className={`rounded-md border-2 border-solid border-transparent px-4 py-2 font-bold text-white transition-all ${getStyle()} ${className}`}
         >
