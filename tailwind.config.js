@@ -11,7 +11,7 @@ export default {
         main: ["Nunito", "sans-serif"],
       },
       colors: {
-        'main': "#7c1cf4",
+        'main': "var(--main)",
         'dark-bg': '#292929',
         'darker-bg': '#121212',
         'dark-obj': '#1d1d1d'
@@ -20,8 +20,10 @@ export default {
         '99': '99',
         '999': '999',
         '9999': '9999',
+        'absolute': '9999999999'
       },
     },
   },
-  plugins: ['prettier-plugin-tailwindcss'],
+  // eslint-disable-next-line no-undef
+  plugins: [require('@tailwindcss/forms'), 'prettier-plugin-tailwindcss'],
 }

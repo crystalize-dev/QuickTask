@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './UI/Button';
-import ThemeSwitcher from './ThemeSwitcher';
 import logo from '../assets/logo.webp';
+import Settings from './Settings';
 
 interface NavbarProps {
     setContainerModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,7 +28,7 @@ export default function Navbar({ setContainerModal }: NavbarProps) {
                 Add container
             </Button>
 
-            <ThemeSwitcher />
+            <Settings />
         </div>
     );
 }

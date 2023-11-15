@@ -1,19 +1,30 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
+import { SettingsContext } from '../context/SettingsContext';
 
 interface TrashProps {
     isDragging: boolean;
 }
 
 export default function Trash({ isDragging }: TrashProps) {
+    const [visible, setVisible] = React.useState(isDragging);
+
     const { attributes, setNodeRef, isOver } = useSortable({
         id: 'trash',
         data: { type: 'trash' }
     });
 
+    const { isFixedTrash } = React.useContext(SettingsContext);
+
+    React.useEffect(() => {
+        if (isFixedTrash) setVisible(isFixedTrash);
+        else setVisible(isDragging);
+    }, [isFixedTrash, isDragging]);
+
     return (
         <AnimatePresence>
-            {isDragging && (
+            {visible && (
                 <motion.div
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 100 }}
