@@ -18,7 +18,7 @@ export default function Button({
     const getStyle = () => {
         switch (variant) {
             case 'ghost':
-                return 'bg-gray-300 dark:bg-zinc-800 hover:!bg-main transition-all hover:!text-white';
+                return 'bg-zinc-400 dark:bg-zinc-800 hover:!bg-main transition-all hover:!text-white';
             default:
                 return 'bg-main hover:border-main hover:bg-transparent hover:text-black hover:dark:text-white';
         }

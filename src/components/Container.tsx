@@ -54,7 +54,7 @@ const Container = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-100 p-4 transition-all dark:bg-dark-obj dark:text-white ${
+            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-200 p-4 transition-all dark:bg-dark-obj dark:text-white ${
                 isDragging && '!opacity-50'
             }`}
         >

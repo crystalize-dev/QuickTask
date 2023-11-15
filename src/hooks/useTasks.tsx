@@ -2,11 +2,10 @@ import React from 'react';
 import { ContainerType } from '../utility/Task-Types';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
-import Input from '../components/UI/Input';
-import Modal from '../components/Modal';
-import Button from '../components/UI/Button';
 import { findValue } from '../utility/findValue';
 import { showConfirmationModal } from '../utility/copenConfirm';
+import ContainerCreateModal from '../components/Modal/ContainerCreateModal';
+import TaskCreateModal from '../components/Modal/TaskCreateModal';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -96,7 +95,7 @@ export const useTasks = () => {
         });
     };
 
-    const onSumbit = (e: React.FormEvent, type: 'container' | 'task') => {
+    const onSubmit = (e: React.FormEvent, type: 'container' | 'task') => {
         e.preventDefault();
 
         if (type === 'container') {
@@ -111,47 +110,23 @@ export const useTasks = () => {
     };
 
     const TaskModal = (
-        <Modal isVisible={taskModal} setVisible={setTaskModal}>
-            <form
-                className="flex w-full flex-col items-start gap-y-4"
-                onSubmit={(e) => onSumbit(e, 'task')}
-            >
-                <h1 className="text-3xl font-bold ">Add task</h1>
-
-                <Input
-                    type="text"
-                    placeholder="Item title"
-                    name="itemTitle"
-                    value={taskName}
-                    autoFocus={true}
-                    onChange={(e) => setTaskName(e.target.value)}
-                />
-
-                <Button type="submit">Add task</Button>
-            </form>
-        </Modal>
+        <TaskCreateModal
+            taskModal={taskModal}
+            setTaskModal={setTaskModal}
+            onSubmit={onSubmit}
+            taskName={taskName}
+            setTaskName={setTaskName}
+        />
     );
 
     const ContainerModal = (
-        <Modal isVisible={containerModal} setVisible={setContainerModal}>
-            <form
-                className="flex w-full flex-col items-center gap-y-8"
-                onSubmit={(e) => onSumbit(e, 'container')}
-            >
-                <h1 className="text-3xl font-bold ">Add Container</h1>
-
-                <Input
-                    type="text"
-                    autoFocus={true}
-                    placeholder="Container title"
-                    name="containerTitle"
-                    value={containerName}
-                    onChange={(e) => setContainerName(e.target.value)}
-                />
-
-                <Button type="submit">Add container</Button>
-            </form>
-        </Modal>
+        <ContainerCreateModal
+            containerModal={containerModal}
+            setContainerModal={setContainerModal}
+            onSubmit={onSubmit}
+            containerName={containerName}
+            setContainerName={setContainerName}
+        />
     );
 
     React.useEffect(() => {

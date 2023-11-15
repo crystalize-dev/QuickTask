@@ -13,6 +13,7 @@ import TaskCard from './TaskCard';
 import { findValue } from '../utility/findValue';
 import { AnimatePresence } from 'framer-motion';
 import Trash from './Trash';
+import nothingFound from '../assets/nothingFound.png';
 
 interface TaskTableProps {
     containers: ContainerType[];
@@ -46,7 +47,13 @@ export default function TaskTable({
     const [showTrash, setShowTrash] = React.useState(false);
 
     return (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div
+            className={`${
+                containers.length === 0
+                    ? 'flex items-center justify-center'
+                    : 'grid grid-cols-1 gap-6 lg:grid-cols-3'
+            }`}
+        >
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCorners}
@@ -59,38 +66,62 @@ export default function TaskTable({
                 >
                     <Trash isDragging={showTrash} />
 
-                    {containers.map((container) => (
-                        <Container
-                            key={container.id}
-                            title={container.title}
-                            id={container.id}
-                            setShowTrash={setShowTrash}
-                            onAddItem={() => {
-                                setTaskModal(true);
-                                setCurrentContainerId(container.id);
-                            }}
-                            removeItem={removeItem}
-                        >
-                            <SortableContext
-                                items={container.items.map((item) => item.id)}
+                    {containers.length !== 0 ? (
+                        containers.map((container) => (
+                            <Container
+                                key={container.id}
+                                title={container.title}
+                                id={container.id}
+                                setShowTrash={setShowTrash}
+                                onAddItem={() => {
+                                    setTaskModal(true);
+                                    setCurrentContainerId(container.id);
+                                }}
+                                removeItem={removeItem}
                             >
-                                <div className="flex flex-col items-start gap-y-4">
-                                    <AnimatePresence>
-                                        {container.items.map((item) => (
-                                            <TaskCard
-                                                containerId={container.id}
-                                                key={item.id}
-                                                title={item.title}
-                                                id={item.id}
-                                                setShowTrash={setShowTrash}
-                                                removeItem={removeItem}
-                                            />
-                                        ))}
-                                    </AnimatePresence>
-                                </div>
-                            </SortableContext>
-                        </Container>
-                    ))}
+                                <SortableContext
+                                    items={container.items.map(
+                                        (item) => item.id
+                                    )}
+                                >
+                                    <div className="flex flex-col items-start gap-y-4">
+                                        <AnimatePresence>
+                                            {container.items.length !== 0 ? (
+                                                container.items.map((item) => (
+                                                    <TaskCard
+                                                        containerId={
+                                                            container.id
+                                                        }
+                                                        key={item.id}
+                                                        title={item.title}
+                                                        id={item.id}
+                                                        setShowTrash={
+                                                            setShowTrash
+                                                        }
+                                                        removeItem={removeItem}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
+                                                    Nothing yet!
+                                                </p>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                </SortableContext>
+                            </Container>
+                        ))
+                    ) : (
+                        <div className="flex h-96 w-full flex-col items-center justify-center text-3xl font-bold capitalize text-gray-600">
+                            <img
+                                src={nothingFound}
+                                alt="nothing found"
+                                draggable={false}
+                                className="h-3/4"
+                            />
+                            <h1>Nothing yet!</h1>
+                        </div>
+                    )}
                 </SortableContext>
 
                 <DragOverlay>
@@ -115,17 +146,24 @@ export default function TaskTable({
                                     ?.title
                             }
                         >
-                            {findValue(
-                                activeId,
-                                'container',
-                                containers
-                            )?.items.map((item) => (
-                                <TaskCard
-                                    key={item.id}
-                                    id={item.id}
-                                    title={item.title}
-                                />
-                            ))}
+                            {findValue(activeId, 'container', containers)?.items
+                                .length !== 0 ? (
+                                findValue(
+                                    activeId,
+                                    'container',
+                                    containers
+                                )?.items.map((item) => (
+                                    <TaskCard
+                                        key={item.id}
+                                        id={item.id}
+                                        title={item.title}
+                                    />
+                                ))
+                            ) : (
+                                <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
+                                    Nothing yet!
+                                </p>
+                            )}
                         </Container>
                     )}
                 </DragOverlay>
