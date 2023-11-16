@@ -15,7 +15,6 @@ const Input = ({
     value,
     placeholder,
     onChange,
-    label,
     autoFocus
 }: InputProps) => {
     return (
