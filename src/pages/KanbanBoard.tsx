@@ -23,14 +23,17 @@ export default function KanbanBoard() {
     return (
         <div
             ref={ref}
-            className="wrapper h-screen w-screen overflow-y-scroll bg-white px-4 dark:bg-dark-bg"
+            className="wrapper relative h-screen w-screen overflow-y-scroll bg-white px-4 dark:bg-dark-bg"
         >
             <ArrowUp scrollY={scrollY} />
 
             <div className="mx-auto flex max-w-7xl flex-col gap-8 py-10">
                 {ContainerModal}
+
                 {TaskModal}
+
                 <Navbar setContainerModal={setContainerModal} />
+
                 <TaskTable
                     containers={containers}
                     removeItem={removeItem}

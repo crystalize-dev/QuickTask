@@ -3,6 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 import React from 'react';
+import Icon from './UI/Icon';
 
 type ItemsType = {
     id: UniqueIdentifier;
@@ -39,9 +40,8 @@ const TaskCard = ({
     });
 
     React.useEffect(() => {
-        if (isDragging) setShowTrash && setShowTrash(true);
-        else setShowTrash && setShowTrash(false);
-    }, [isDragging]);
+        setShowTrash && setShowTrash(isDragging);
+    }, [isDragging, setShowTrash]);
 
     return (
         <motion.div
@@ -54,46 +54,26 @@ const TaskCard = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`w-full cursor-default rounded-xl border border-transparent bg-white p-4 shadow-md dark:bg-darker-bg dark:text-white ${
+            className={`w-full cursor-default rounded-xl border-none bg-white p-4 shadow-md outline-none dark:bg-darker-bg dark:text-white ${
                 isDragging && '!opacity-50'
             }`}
         >
             <div className="flex items-center gap-4">
-                <svg
+                <Icon
+                    path="M6 18L18 6M6 6l12 12"
                     onClick={() =>
                         removeItem && removeItem('task', containerId, id)
                     }
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="currentColor"
-                    className="h-4 w-4 cursor-pointer transition-all hover:scale-125"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
+                />
 
                 {title}
 
-                <svg
-                    {...listeners}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="ml-auto h-6 w-6 cursor-grab"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
+                <Icon
+                    path="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    className="ml-auto cursor-grab"
+                    listners={listeners}
+                    hover={false}
+                />
             </div>
         </motion.div>
     );

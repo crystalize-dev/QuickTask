@@ -1,58 +1,65 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
+import transparent from '../../assets/transparent.jpg';
 
-export default function ColorInput() {
-    type ColorType = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | null;
-    const defaultMap = [
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'blue',
-        null
-    ] as Array<ColorType>;
+interface ColorInputProps {
+    defaultMap: Array<string>;
+    activeColor: string | null;
+    onClick: (color: string | null) => void;
+    withTransparent?: boolean;
+}
 
-    const [activeColor, setActiveColor] = React.useState<ColorType>(null);
-
+export default function ColorInput({
+    defaultMap,
+    activeColor,
+    onClick,
+    withTransparent = false
+}: ColorInputProps) {
     return (
-        <AnimatePresence>
-            <div className="flex items-center gap-2">
-                {defaultMap.map((color) =>
-                    color ? (
-                        <motion.div
-                            key={color}
-                            className="relative flex h-4 w-4 items-center justify-center"
-                        >
+        <div className="flex items-center gap-2">
+            <AnimatePresence>
+                {defaultMap.map((color) => (
+                    <div
+                        key={color}
+                        onClick={() => onClick(color)}
+                        className={`relative h-4 w-4 cursor-pointer items-center justify-center rounded-full`}
+                        style={{ backgroundColor: color }}
+                    >
+                        {activeColor === color && (
                             <motion.div
-                                onClick={() => setActiveColor(color)}
-                                className={`bg-${color}-500 h-full w-full cursor-pointer rounded-full`}
-                            ></motion.div>
-                            {activeColor === color && (
-                                <motion.div
-                                    layoutId="color"
-                                    className={`absolute h-full w-full rounded-full bg-transparent outline outline-offset-1 outline-${color}-500`}
-                                />
-                            )}
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key={'null-image'}
-                            className="relative flex h-4 w-4 items-center justify-center"
-                        >
-                            <motion.div
-                                onClick={() => setActiveColor(null)}
-                                className={`h-full w-full cursor-pointer rounded-full bg-gray-500`}
-                            ></motion.div>
+                                layoutId="themeColor"
+                                className={`absolute h-full w-full rounded-full outline-offset-2`}
+                                style={{
+                                    outline: `2px solid ${color}`
+                                }}
+                            />
+                        )}
+                    </div>
+                ))}
+
+                {withTransparent && (
+                    <div
+                        className={`relative h-4 w-4 cursor-pointer items-center justify-center rounded-full`}
+                    >
+                        <img
+                            onClick={() => onClick(null)}
+                            alt="transparent"
+                            className={`absolute h-full w-full rounded-full outline-offset-2`}
+                            src={transparent}
+                        />
+                        <div>
                             {!activeColor && (
                                 <motion.div
-                                    layoutId="color"
-                                    className="absolute h-full w-full rounded-full bg-transparent outline outline-offset-1 outline-gray-500"
+                                    layoutId="themeColor"
+                                    className={`absolute h-full w-full rounded-full outline-offset-2`}
+                                    style={{
+                                        outline: `2px solid gray`
+                                    }}
                                 />
                             )}
-                        </motion.div>
-                    )
+                        </div>
+                    </div>
                 )}
-            </div>
-        </AnimatePresence>
+            </AnimatePresence>
+        </div>
     );
 }

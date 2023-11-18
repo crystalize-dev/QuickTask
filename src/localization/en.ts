@@ -22,7 +22,11 @@ export default {
 
         settings: {
             title: 'Settings',
-            theme: 'Theme',
+            theme: {
+                title: 'Theme',
+                light: 'Light',
+                dark: 'Dark'
+            },
             mainColor: 'Accent color',
             fixedTrash: 'Fixed trash button'
         }

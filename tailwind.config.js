@@ -21,7 +21,7 @@ export default {
         '999': '999',
         '9999': '9999',
         'absolute': '9999999999'
-      },
+      }
     },
   },
   // eslint-disable-next-line no-undef

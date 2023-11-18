@@ -4,6 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import Button from './UI/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import Icon from './UI/Icon';
 
 interface ContainerProps {
     id: UniqueIdentifier;
@@ -45,9 +46,8 @@ const Container = ({
     });
 
     React.useEffect(() => {
-        if (isDragging && setShowTrash) setShowTrash(true);
-        else setShowTrash && setShowTrash(false);
-    }, [isDragging]);
+        setShowTrash && setShowTrash(isDragging);
+    }, [isDragging, setShowTrash]);
 
     return (
         <div
@@ -57,47 +57,27 @@ const Container = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`flex h-full w-full cursor-default flex-col gap-y-4 rounded-xl bg-gray-200 p-4 transition-all dark:bg-dark-obj dark:text-white ${
+            className={`flex h-full w-full cursor-default flex-col gap-y-4 rounded-xl border-none bg-gray-200 p-4 outline-none transition-all dark:bg-dark-obj dark:text-white ${
                 isDragging && '!opacity-50'
             }`}
         >
             <div className="flex items-center gap-4">
-                <svg
+                <Icon
+                    path="M6 18L18 6M6 6l12 12"
                     onClick={() => removeItem && removeItem('container', id)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="currentColor"
-                    className="h-4 w-4 cursor-pointer transition-all hover:scale-125"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
+                />
 
                 <div className="flex flex-col gap-y-1">
                     <h1 className="select-none text-xl">{title}</h1>
                     <p className="text-sm">{description}</p>
                 </div>
 
-                <svg
-                    {...listeners}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="ml-auto h-6 w-6 cursor-grab"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
+                <Icon
+                    path="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    listners={listeners}
+                    hover={false}
+                    className="ml-auto cursor-grab"
+                />
             </div>
 
             {children}
