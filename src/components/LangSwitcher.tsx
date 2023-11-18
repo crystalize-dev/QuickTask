@@ -1,15 +1,25 @@
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { Translation } from 'i18nano';
 import { SettingsContext } from '../context/SettingsContext';
+import React from 'react';
 
-const LangSwitcher = (switchLang) => {
-    const { t } = useTranslation();
+const LangSwitcher = () => {
+    const { settings, changeSetting } = React.useContext(SettingsContext);
+
+    const switchLang = () => {
+        if (settings.lang === 'ru') {
+            changeSetting('lang', 'en');
+        } else {
+            changeSetting('lang', 'ru');
+        }
+    };
 
     return (
-        <p onClick={switchLang}>
-            {t && t('lang')}
-            <span>{t('langName')}</span>
-        </p>
+        <div
+            onClick={switchLang}
+            className="flex cursor-pointer items-center gap-1"
+        >
+            123123
+        </div>
     );
 };
 

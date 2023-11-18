@@ -1,33 +1,25 @@
 import React from 'react';
-import Modal from './ModalWrapper';
+import ModalWrapper from './ModalWrapper';
 import { SettingsContext } from '../../context/SettingsContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Checkbox from '../UI/Checkbox';
 import ThemeSwitcher from '../ThemeSwitcher';
 import LangSwitcher from '../LangSwitcher';
 
-interface SettingsModalProps {
-    modal: boolean;
-    mainColor: string;
-    setMainColor: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export default function SettingsOpenModal({
-    modal,
-    mainColor,
-    setMainColor
-}: SettingsModalProps) {
+export default function ModalSettings() {
     const defaultThemeColors = ['#6655f3', '#f41382', 'red', 'green', 'blue'];
 
-    const { setSettingsModal, setFixedTrash, isFixedTrash, switchLang } =
-        React.useContext(SettingsContext);
+    const { settings, changeSetting } = React.useContext(SettingsContext);
 
     const changeFixedTrash = (e: React.ChangeEvent) => {
-        setFixedTrash((e.target as HTMLInputElement).checked);
+        changeSetting('isFixedTrash', (e.target as HTMLInputElement).checked);
     };
 
     return (
-        <Modal isVisible={modal} setVisible={setSettingsModal}>
+        <ModalWrapper
+            isVisible={settings?.modalSettingsVisible}
+            setVisible={() => changeSetting('modalSettingsVisible', false)}
+        >
             <div className="flex flex-col items-center gap-4">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -50,11 +42,11 @@ export default function SettingsOpenModal({
                 </svg>
                 <h1 className="mb-8 text-3xl font-bold">Settings</h1>
 
-                <LangSwitcher switchLang={switchLang} />
+                <LangSwitcher />
 
                 <div className="flex w-full items-center gap-2 font-semibold">
                     <p>Theme - </p>
-                    <ThemeSwitcher />L
+                    <ThemeSwitcher />
                 </div>
 
                 <div className="flex w-full items-center gap-2 font-semibold">
@@ -63,11 +55,13 @@ export default function SettingsOpenModal({
                         {defaultThemeColors.map((color) => (
                             <div
                                 key={color}
-                                onClick={() => setMainColor(color)}
+                                onClick={() =>
+                                    changeSetting('mainColor', color)
+                                }
                                 className={`relative flex h-4 w-4 cursor-pointer items-center justify-center rounded-full`}
                                 style={{ backgroundColor: color }}
                             >
-                                {mainColor === color && (
+                                {settings.mainColor === color && (
                                     <motion.div
                                         layoutId="themeColor"
                                         className={`absolute h-full w-full rounded-full outline-offset-2`}
@@ -84,11 +78,11 @@ export default function SettingsOpenModal({
                 <div className="flex w-full items-center gap-2 font-semibold">
                     <p>Fixed trash - </p>
                     <Checkbox
-                        checked={isFixedTrash}
+                        checked={settings.isFixedTrash}
                         onChange={(e) => changeFixedTrash(e)}
                     />
                 </div>
             </div>
-        </Modal>
+        </ModalWrapper>
     );
 }

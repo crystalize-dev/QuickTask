@@ -1,14 +1,14 @@
 import React from 'react';
 import { SettingsContext } from '../context/SettingsContext';
+import ModalSettings from './Modal/ModalSettings';
 
 export default function Settings() {
-    const { SettingsModal, setSettingsModal } =
-        React.useContext(SettingsContext);
+    const { changeSetting } = React.useContext(SettingsContext);
 
     return (
         <>
             <svg
-                onClick={() => setSettingsModal(true)}
+                onClick={() => changeSetting('modalSettingsVisible', true)}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -28,7 +28,7 @@ export default function Settings() {
                 />
             </svg>
 
-            {SettingsModal}
+            <ModalSettings />
         </>
     );
 }

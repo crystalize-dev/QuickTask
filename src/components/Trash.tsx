@@ -15,12 +15,12 @@ export default function Trash({ isDragging }: TrashProps) {
         data: { type: 'trash' }
     });
 
-    const { isFixedTrash } = React.useContext(SettingsContext);
+    const { settings } = React.useContext(SettingsContext);
 
     React.useEffect(() => {
-        if (isFixedTrash) setVisible(isFixedTrash);
+        if (settings.isFixedTrash) setVisible(settings.isFixedTrash);
         else setVisible(isDragging);
-    }, [isFixedTrash, isDragging]);
+    }, [settings.isFixedTrash, isDragging]);
 
     return (
         <AnimatePresence>

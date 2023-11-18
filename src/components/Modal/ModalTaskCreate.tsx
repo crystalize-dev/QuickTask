@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from './ModalWrapper';
+import ModalWrapper from './ModalWrapper';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import ColorInput from '../UI/ColorInput';
@@ -12,7 +12,7 @@ interface TaskModalProps {
     setTaskName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function TaskCreateModal({
+export default function ModalTaskCreate({
     taskModal,
     setTaskModal,
     onSubmit,
@@ -20,7 +20,7 @@ export default function TaskCreateModal({
     setTaskName
 }: TaskModalProps) {
     return (
-        <Modal isVisible={taskModal} setVisible={setTaskModal}>
+        <ModalWrapper isVisible={taskModal} setVisible={setTaskModal}>
             <form
                 className="flex w-full flex-col items-start gap-y-4"
                 onSubmit={(e) => onSubmit(e, 'task')}
@@ -40,6 +40,6 @@ export default function TaskCreateModal({
 
                 <Button type="submit">Add task</Button>
             </form>
-        </Modal>
+        </ModalWrapper>
     );
 }

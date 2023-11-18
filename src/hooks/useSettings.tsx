@@ -1,79 +1,59 @@
 import React from 'react';
-import SettingsOpenModal from '../components/Modal/ModalSettings';
-import { useTranslationChange } from 'i18nano';
+import { SettingsType } from '../utility/Settings-Types';
+import i18next from 'i18next';
+import en from '../localization/en.json';
+import ru from '../localization/ru.json';
 
 export const useSettings = () => {
-    const [modal, setSettingsModal] = React.useState(false);
-    const [mainColor, setMainColor] = React.useState('#6655f3');
-    const [isFixedTrash, setFixedTrash] = React.useState(false);
-    const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
-
-    const lang = useTranslationChange();
-
-    React.useEffect(() => {
-        if (!lang.lang) {
-            const language = localStorage.getItem('lang');
-
-            if (language) lang.change(language);
-            else lang.change('ru');
-        } else localStorage.setItem('lang', lang.lang);
-    }, [lang, lang.lang]);
-
-    const switchLang = () => {
-        lang.change(lang.lang === 'ru' ? 'en' : 'ru');
+    const defaultSettings: SettingsType = {
+        modalSettingsVisible: false,
+        mainColor: '#6655f3',
+        isFixedTrash: false,
+        theme: 'light',
+        lang: 'en'
     };
 
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+    i18next.init({ lng: 'en', resources: { en, ru } });
+
+    const [settings, setSettings] =
+        React.useState<SettingsType>(defaultSettings);
+
+    const changeSetting = (
+        setting: keyof SettingsType,
+        value: SettingsType[typeof setting]
+    ) => {
+        const newSettings = { ...settings, [setting]: value } as SettingsType;
+
+        setSettings(newSettings);
     };
 
-    const SettingsModal = (
-        <SettingsOpenModal
-            modal={modal}
-            setMainColor={setMainColor}
-            mainColor={mainColor}
-        />
-    );
-
     React.useEffect(() => {
-        const optionsRaw = localStorage.getItem('options');
+        const settingsRaw = localStorage.getItem('settings');
 
-        if (optionsRaw) {
-            const options = JSON.parse(optionsRaw);
-
-            setMainColor(options.mainColor);
-            setFixedTrash(options.isFixedTrash);
-            setTheme(options.theme);
+        if (settingsRaw) setSettings(JSON.parse(settingsRaw));
+        else {
+            setSettings(defaultSettings);
         }
     }, []);
 
     React.useEffect(() => {
-        const root = document.getElementById('root');
+        localStorage.setItem('settings', JSON.stringify(settings));
 
-        root?.style.setProperty('--main', mainColor);
-    }, [mainColor]);
+        i18next.changeLanguage(settings.lang);
 
-    React.useEffect(() => {
-        if (theme === 'dark') {
+        if (settings.theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
-    }, [theme]);
 
-    React.useEffect(() => {
-        const options = { mainColor, isFixedTrash, theme };
+        const root = document.getElementById('root');
 
-        localStorage.setItem('options', JSON.stringify(options));
-    }, [mainColor, isFixedTrash, theme]);
+        root?.style.setProperty('--main', settings.mainColor);
+    }, [settings]);
 
     return {
-        SettingsModal,
-        setSettingsModal,
-        isFixedTrash,
-        setFixedTrash,
-        toggleTheme,
-        theme,
-        switchLang
+        settings,
+        changeSetting
     };
 };

@@ -42,7 +42,7 @@ const Container = ({
     });
 
     React.useEffect(() => {
-        if (isDragging) setShowTrash && setShowTrash(true);
+        if (isDragging && setShowTrash) setShowTrash(true);
         else setShowTrash && setShowTrash(false);
     }, [isDragging]);
 

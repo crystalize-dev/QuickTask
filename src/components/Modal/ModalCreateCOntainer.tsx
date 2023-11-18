@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../UI/Button';
-import Modal from './ModalWrapper';
+import ModalWrapper from './ModalWrapper';
 import Input from '../UI/Input';
 
 interface ContainerModalProps {
@@ -11,7 +11,7 @@ interface ContainerModalProps {
     setContainerName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function ContainerCreateModal({
+export default function ModalCreateContainer({
     containerModal,
     setContainerModal,
     onSubmit,
@@ -19,7 +19,7 @@ export default function ContainerCreateModal({
     setContainerName
 }: ContainerModalProps) {
     return (
-        <Modal isVisible={containerModal} setVisible={setContainerModal}>
+        <ModalWrapper isVisible={containerModal} setVisible={setContainerModal}>
             <form
                 className="flex w-full flex-col items-center gap-y-8"
                 onSubmit={(e) => onSubmit(e, 'container')}
@@ -37,6 +37,6 @@ export default function ContainerCreateModal({
 
                 <Button type="submit">Add container</Button>
             </form>
-        </Modal>
+        </ModalWrapper>
     );
 }

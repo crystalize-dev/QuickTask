@@ -4,8 +4,8 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
 import { findValue } from '../utility/findValue';
 import { showConfirmationModal } from '../utility/copenConfirm';
-import ContainerCreateModal from '../components/Modal/ModalCreateCOntainer';
-import TaskCreateModal from '../components/Modal/ModalTaskCreate';
+import ModalTaskCreate from '../components/Modal/ModalTaskCreate';
+import ModalCreateContainer from '../components/Modal/ModalCreateCOntainer';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -110,7 +110,7 @@ export const useTasks = () => {
     };
 
     const TaskModal = (
-        <TaskCreateModal
+        <ModalTaskCreate
             taskModal={taskModal}
             setTaskModal={setTaskModal}
             onSubmit={onSubmit}
@@ -120,7 +120,7 @@ export const useTasks = () => {
     );
 
     const ContainerModal = (
-        <ContainerCreateModal
+        <ModalCreateContainer
             containerModal={containerModal}
             setContainerModal={setContainerModal}
             onSubmit={onSubmit}
