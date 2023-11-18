@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../UI/Button';
 import ModalWrapper from './ModalWrapper';
 import Input from '../UI/Input';
+import { useTranslation } from 'react-i18next';
 
 interface ContainerModalProps {
     containerModal: boolean;
@@ -18,13 +19,17 @@ export default function ModalCreateContainer({
     containerName,
     setContainerName
 }: ContainerModalProps) {
+    const { t } = useTranslation();
+
     return (
         <ModalWrapper isVisible={containerModal} setVisible={setContainerModal}>
             <form
                 className="flex w-full flex-col items-center gap-y-8"
                 onSubmit={(e) => onSubmit(e, 'container')}
             >
-                <h1 className="text-3xl font-bold ">Add Container</h1>
+                <h1 className="text-3xl font-bold ">
+                    {t('modal.createContainer')}
+                </h1>
 
                 <Input
                     type="text"
@@ -35,7 +40,7 @@ export default function ModalCreateContainer({
                     onChange={(e) => setContainerName(e.target.value)}
                 />
 
-                <Button type="submit">Add container</Button>
+                <Button type="submit">{t('submit')}</Button>
             </form>
         </ModalWrapper>
     );

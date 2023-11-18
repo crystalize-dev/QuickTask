@@ -3,6 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Button from './UI/Button';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ContainerProps {
     id: UniqueIdentifier;
@@ -27,6 +28,8 @@ const Container = ({
     removeItem,
     setShowTrash
 }: ContainerProps) => {
+    const { t } = useTranslation();
+
     const {
         attributes,
         setNodeRef,
@@ -54,7 +57,7 @@ const Container = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-200 p-4 transition-all dark:bg-dark-obj dark:text-white ${
+            className={`flex h-full w-full cursor-default flex-col gap-y-4 rounded-xl bg-gray-200 p-4 transition-all dark:bg-dark-obj dark:text-white ${
                 isDragging && '!opacity-50'
             }`}
         >
@@ -87,7 +90,7 @@ const Container = ({
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="ml-auto h-6 w-6"
+                    className="ml-auto h-6 w-6 cursor-grab"
                 >
                     <path
                         strokeLinecap="round"
@@ -99,7 +102,7 @@ const Container = ({
 
             {children}
             <Button variant="ghost" onClick={onAddItem}>
-                Add Item
+                {t('modal.createTask')}
             </Button>
         </div>
     );

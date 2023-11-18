@@ -5,9 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Checkbox from '../UI/Checkbox';
 import ThemeSwitcher from '../ThemeSwitcher';
 import LangSwitcher from '../LangSwitcher';
+import { useTranslation } from 'react-i18next';
 
 export default function ModalSettings() {
     const defaultThemeColors = ['#6655f3', '#f41382', 'red', 'green', 'blue'];
+
+    const { t } = useTranslation();
 
     const { settings, changeSetting } = React.useContext(SettingsContext);
 
@@ -40,17 +43,51 @@ export default function ModalSettings() {
                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                 </svg>
-                <h1 className="mb-8 text-3xl font-bold">Settings</h1>
-
-                <LangSwitcher />
+                <h1 className="mb-8 text-3xl font-bold">
+                    {t('settings.title')}
+                </h1>
 
                 <div className="flex w-full items-center gap-2 font-semibold">
-                    <p>Theme - </p>
+                    <p>{t('settings.theme')} - </p>
                     <ThemeSwitcher />
                 </div>
 
                 <div className="flex w-full items-center gap-2 font-semibold">
-                    <p>Main theme color - </p>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+                        />
+                    </svg>
+
+                    <LangSwitcher />
+                </div>
+
+                <div className="flex w-full items-center gap-2 font-semibold">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z"
+                        />
+                    </svg>
+
+                    <p>{t('settings.mainColor')} - </p>
                     <AnimatePresence>
                         {defaultThemeColors.map((color) => (
                             <div
@@ -76,7 +113,22 @@ export default function ModalSettings() {
                 </div>
 
                 <div className="flex w-full items-center gap-2 font-semibold">
-                    <p>Fixed trash - </p>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                        />
+                    </svg>
+
+                    <p>{t('settings.fixedTrash')} - </p>
                     <Checkbox
                         checked={settings.isFixedTrash}
                         onChange={(e) => changeFixedTrash(e)}

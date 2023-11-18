@@ -3,5 +3,4 @@ export type SettingsType = {
     mainColor: string;
     isFixedTrash: boolean;
     theme: 'dark' | 'light';
-    lang: 'ru' | 'en';
 };

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { findValue } from '../utility/findValue';
 import { showConfirmationModal } from '../utility/copenConfirm';
 import ModalTaskCreate from '../components/Modal/ModalTaskCreate';
-import ModalCreateContainer from '../components/Modal/ModalCreateCOntainer';
+import ModalCreateContainer from '../components/Modal/ModalCreateContainer';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);

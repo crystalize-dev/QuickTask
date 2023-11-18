@@ -3,6 +3,7 @@ import ModalWrapper from './ModalWrapper';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import ColorInput from '../UI/ColorInput';
+import { useTranslation } from 'react-i18next';
 
 interface TaskModalProps {
     taskModal: boolean;
@@ -19,13 +20,15 @@ export default function ModalTaskCreate({
     taskName,
     setTaskName
 }: TaskModalProps) {
+    const { t } = useTranslation();
+
     return (
         <ModalWrapper isVisible={taskModal} setVisible={setTaskModal}>
             <form
                 className="flex w-full flex-col items-start gap-y-4"
                 onSubmit={(e) => onSubmit(e, 'task')}
             >
-                <h1 className="text-3xl font-bold ">Add task</h1>
+                <h1 className="text-3xl font-bold ">{t('modal.createTask')}</h1>
 
                 <Input
                     type="text"
@@ -38,7 +41,7 @@ export default function ModalTaskCreate({
 
                 <ColorInput />
 
-                <Button type="submit">Add task</Button>
+                <Button type="submit">{t('submit')}</Button>
             </form>
         </ModalWrapper>
     );

@@ -1,19 +1,13 @@
 import React from 'react';
 import { SettingsType } from '../utility/Settings-Types';
-import i18next from 'i18next';
-import en from '../localization/en.json';
-import ru from '../localization/ru.json';
 
 export const useSettings = () => {
     const defaultSettings: SettingsType = {
         modalSettingsVisible: false,
         mainColor: '#6655f3',
         isFixedTrash: false,
-        theme: 'light',
-        lang: 'en'
+        theme: 'light'
     };
-
-    i18next.init({ lng: 'en', resources: { en, ru } });
 
     const [settings, setSettings] =
         React.useState<SettingsType>(defaultSettings);
@@ -38,8 +32,6 @@ export const useSettings = () => {
 
     React.useEffect(() => {
         localStorage.setItem('settings', JSON.stringify(settings));
-
-        i18next.changeLanguage(settings.lang);
 
         if (settings.theme === 'dark') {
             document.documentElement.classList.add('dark');

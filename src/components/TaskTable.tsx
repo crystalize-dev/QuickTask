@@ -14,6 +14,7 @@ import { findValue } from '../utility/findValue';
 import { AnimatePresence } from 'framer-motion';
 import Trash from './Trash';
 import nothingFound from '../assets/nothingFound.png';
+import { useTranslation } from 'react-i18next';
 
 interface TaskTableProps {
     containers: ContainerType[];
@@ -45,6 +46,8 @@ export default function TaskTable({
     } = useDrag(containers, setContainers, removeItem);
 
     const [showTrash, setShowTrash] = React.useState(false);
+
+    const { t } = useTranslation();
 
     return (
         <div
@@ -103,7 +106,7 @@ export default function TaskTable({
                                                 ))
                                             ) : (
                                                 <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
-                                                    Nothing yet!
+                                                    {t('nothing')}
                                                 </p>
                                             )}
                                         </AnimatePresence>
@@ -119,7 +122,7 @@ export default function TaskTable({
                                 draggable={false}
                                 className="h-3/4"
                             />
-                            <h1>Nothing yet!</h1>
+                            <h1> {t('nothing')}</h1>
                         </div>
                     )}
                 </SortableContext>
@@ -161,7 +164,7 @@ export default function TaskTable({
                                 ))
                             ) : (
                                 <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
-                                    Nothing yet!
+                                    {t('nothing')}
                                 </p>
                             )}
                         </Container>
