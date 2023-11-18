@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import ConfirmationModal from '../components/modalConfirmation';
+import ModalConfirmation from '../components/Modal/modalConfirmation';
 
 export const showConfirmationModal = () =>
     new Promise((resolve) => {
@@ -12,5 +12,5 @@ export const showConfirmationModal = () =>
         };
 
         const root = ReactDOM.createRoot(div);
-        root.render(<ConfirmationModal onConfirm={handleConfirm} />);
+        root.render(<ModalConfirmation onConfirm={handleConfirm} />);
     });

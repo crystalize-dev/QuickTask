@@ -4,8 +4,8 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
 import { findValue } from '../utility/findValue';
 import { showConfirmationModal } from '../utility/copenConfirm';
-import ContainerCreateModal from '../components/Modal/ContainerCreateModal';
-import TaskCreateModal from '../components/Modal/TaskCreateModal';
+import ContainerCreateModal from '../components/Modal/ModalCreateCOntainer';
+import TaskCreateModal from '../components/Modal/ModalTaskCreate';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);

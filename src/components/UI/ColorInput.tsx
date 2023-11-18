@@ -35,7 +35,10 @@ export default function ColorInput() {
                             )}
                         </motion.div>
                     ) : (
-                        <motion.div className="relative flex h-4 w-4 items-center justify-center">
+                        <motion.div
+                            key={'null-image'}
+                            className="relative flex h-4 w-4 items-center justify-center"
+                        >
                             <motion.div
                                 onClick={() => setActiveColor(null)}
                                 className={`h-full w-full cursor-pointer rounded-full bg-gray-500`}

@@ -7,7 +7,8 @@ type SettingsProps = {
     isFixedTrash: boolean;
     setFixedTrash: React.Dispatch<React.SetStateAction<boolean>>;
     toggleTheme: () => void;
-    theme: "dark" | "light"
+    theme: "dark" | "light";
+    switchLang: () => void;
 }
 
 export const SettingsContext = React.createContext({} as SettingsProps)

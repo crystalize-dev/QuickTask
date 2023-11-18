@@ -6,7 +6,6 @@ interface InputProps {
     placeholder?: string;
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    label?: string;
     autoFocus?: boolean;
 }
 
@@ -15,7 +14,6 @@ const Input = ({
     value,
     placeholder,
     onChange,
-    label,
     autoFocus
 }: InputProps) => {
     return (

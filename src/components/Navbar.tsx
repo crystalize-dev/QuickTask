@@ -25,7 +25,7 @@ export default function Navbar({ setContainerModal }: NavbarProps) {
                 className="md:ml-auto"
                 onClick={() => setContainerModal(true)}
             >
-                Add container
+                Add category
             </Button>
 
             <Settings />

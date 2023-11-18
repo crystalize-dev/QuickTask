@@ -1,9 +1,10 @@
 import React from 'react';
-import Modal from './Modal';
+import Modal from './ModalWrapper';
 import { SettingsContext } from '../../context/SettingsContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Checkbox from '../UI/Checkbox';
 import ThemeSwitcher from '../ThemeSwitcher';
+import LangSwitcher from '../LangSwitcher';
 
 interface SettingsModalProps {
     modal: boolean;
@@ -16,9 +17,9 @@ export default function SettingsOpenModal({
     mainColor,
     setMainColor
 }: SettingsModalProps) {
-    const defaultThemeColors = ['#f41382', '#6655f3', 'red', 'green', 'blue'];
+    const defaultThemeColors = ['#6655f3', '#f41382', 'red', 'green', 'blue'];
 
-    const { setSettingsModal, setFixedTrash, isFixedTrash } =
+    const { setSettingsModal, setFixedTrash, isFixedTrash, switchLang } =
         React.useContext(SettingsContext);
 
     const changeFixedTrash = (e: React.ChangeEvent) => {
@@ -49,10 +50,11 @@ export default function SettingsOpenModal({
                 </svg>
                 <h1 className="mb-8 text-3xl font-bold">Settings</h1>
 
+                <LangSwitcher switchLang={switchLang} />
+
                 <div className="flex w-full items-center gap-2 font-semibold">
                     <p>Theme - </p>
-
-                    <ThemeSwitcher />
+                    <ThemeSwitcher />L
                 </div>
 
                 <div className="flex w-full items-center gap-2 font-semibold">

@@ -1,3 +1,8 @@
+# Fix:
+
+- Color picker on Task/Container create
+- Unificate color picker component (in Settings modal)
+
 # ToDo:
 
 - Modal window functionality (Containers + Tasks)
