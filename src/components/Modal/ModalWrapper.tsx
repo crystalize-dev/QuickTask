@@ -7,7 +7,11 @@ interface ModalProps {
     children: React.ReactNode;
 }
 
-export default function Modal({ isVisible, setVisible, children }: ModalProps) {
+export default function ModalWrapper({
+    isVisible,
+    setVisible,
+    children
+}: ModalProps) {
     return (
         <AnimatePresence initial={false}>
             {isVisible && (

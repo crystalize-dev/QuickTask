@@ -1,8 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 interface IProps {
     onConfirm: (state: boolean) => void;
 }
 
 const ModalConfirmation = ({ onConfirm }: IProps) => {
+    const { t } = useTranslation();
+
     const handleConfirm = () => {
         onConfirm(true);
     };
@@ -19,7 +23,7 @@ const ModalConfirmation = ({ onConfirm }: IProps) => {
         >
             <div className="flex h-full w-full flex-col justify-center gap-4 bg-white p-8 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-lg">
                 <p className="text-center text-xl font-semibold">
-                    Are you sure?
+                    {t('modal.confirm')}
                 </p>
 
                 <div className="flex items-center gap-2">
@@ -28,13 +32,13 @@ const ModalConfirmation = ({ onConfirm }: IProps) => {
                         type="submit"
                         className="flex h-12 w-24 cursor-pointer items-center justify-center rounded-lg bg-green-500 px-4 py-2 text-white"
                     >
-                        Да
+                        {t('yes')}
                     </button>
                     <div
                         className="flex h-12 w-24 cursor-pointer items-center justify-center rounded-lg bg-red-500 px-4 py-2 text-white"
                         onClick={handleCancel}
                     >
-                        Нет
+                        {t('no')}
                     </div>
                 </div>
             </div>

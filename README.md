@@ -5,6 +5,7 @@
 
 # ToDo:
 
+- Icons component
 - Modal window functionality (Containers + Tasks)
 - Task functionality (priotiry, deadline etc.)
 - Task Editing

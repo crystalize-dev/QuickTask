@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from '../UI/Button';
-import Modal from './ModalWrapper';
+import ModalWrapper from './ModalWrapper';
 import Input from '../UI/Input';
+import { useTranslation } from 'react-i18next';
 
 interface ContainerModalProps {
     containerModal: boolean;
@@ -11,20 +12,24 @@ interface ContainerModalProps {
     setContainerName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function ContainerCreateModal({
+export default function ModalCreateContainer({
     containerModal,
     setContainerModal,
     onSubmit,
     containerName,
     setContainerName
 }: ContainerModalProps) {
+    const { t } = useTranslation();
+
     return (
-        <Modal isVisible={containerModal} setVisible={setContainerModal}>
+        <ModalWrapper isVisible={containerModal} setVisible={setContainerModal}>
             <form
                 className="flex w-full flex-col items-center gap-y-8"
                 onSubmit={(e) => onSubmit(e, 'container')}
             >
-                <h1 className="text-3xl font-bold ">Add Container</h1>
+                <h1 className="text-3xl font-bold ">
+                    {t('modal.createContainer')}
+                </h1>
 
                 <Input
                     type="text"
@@ -35,8 +40,8 @@ export default function ContainerCreateModal({
                     onChange={(e) => setContainerName(e.target.value)}
                 />
 
-                <Button type="submit">Add container</Button>
+                <Button type="submit">{t('submit')}</Button>
             </form>
-        </Modal>
+        </ModalWrapper>
     );
 }

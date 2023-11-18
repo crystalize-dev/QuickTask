@@ -2,12 +2,15 @@ import React from 'react';
 import Button from './UI/Button';
 import logo from '../assets/logo.webp';
 import Settings from './Settings';
+import { useTranslation } from 'react-i18next';
 
 interface NavbarProps {
     setContainerModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navbar({ setContainerModal }: NavbarProps) {
+    const { t } = useTranslation();
+
     return (
         <div className="relative flex select-none items-center justify-between gap-4 md:justify-normal">
             <img
@@ -25,7 +28,7 @@ export default function Navbar({ setContainerModal }: NavbarProps) {
                 className="md:ml-auto"
                 onClick={() => setContainerModal(true)}
             >
-                Add category
+                {t('navbar.button')}
             </Button>
 
             <Settings />

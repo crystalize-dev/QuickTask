@@ -54,7 +54,7 @@ const TaskCard = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`w-full cursor-pointer rounded-xl border border-transparent bg-white p-4 shadow-md dark:bg-darker-bg dark:text-white ${
+            className={`w-full cursor-default rounded-xl border border-transparent bg-white p-4 shadow-md dark:bg-darker-bg dark:text-white ${
                 isDragging && '!opacity-50'
             }`}
         >
@@ -86,7 +86,7 @@ const TaskCard = ({
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="ml-auto h-6 w-6"
+                    className="ml-auto h-6 w-6 cursor-grab"
                 >
                     <path
                         strokeLinecap="round"
