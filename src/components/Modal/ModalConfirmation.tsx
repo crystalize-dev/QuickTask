@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import Icon from '../UI/Icon';
 
 interface IProps {
     onConfirm: (state: boolean) => void;
@@ -21,12 +22,21 @@ const ModalConfirmation = ({ onConfirm }: IProps) => {
             onMouseDown={handleCancel}
             onSubmit={handleConfirm}
         >
-            <div className="flex h-full w-full flex-col justify-center gap-4 bg-white p-8 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-lg">
+            <Icon
+                path="M6 18L18 6M6 6l12 12"
+                onClick={() => handleCancel}
+                className="absolute right-4 top-4 h-6 w-6 lg:hidden"
+            />
+
+            <div
+                className="flex h-full w-full flex-col justify-center gap-4 bg-white p-8 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-lg"
+                onMouseDown={(e) => e.stopPropagation()}
+            >
                 <p className="text-center text-xl font-semibold">
                     {t('modal.confirm')}
                 </p>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                     <button
                         autoFocus
                         type="submit"

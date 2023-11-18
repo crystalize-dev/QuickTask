@@ -1,11 +1,11 @@
 # Fix:
 
-- Color picker on Task/Container create
-- Unificate color picker component (in Settings modal)
+- Empty container dragging
 
 # ToDo:
 
-- Icons component
+- instead of confirmation => rollback task
+- RemoveAll with confirmation
 - Modal window functionality (Containers + Tasks)
 - Task functionality (priotiry, deadline etc.)
 - Task Editing

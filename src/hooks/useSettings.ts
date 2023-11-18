@@ -2,15 +2,12 @@ import React from 'react';
 import { SettingsType } from '../utility/Settings-Types';
 
 export const useSettings = () => {
-    const defaultSettings: SettingsType = {
+    const [settings, setSettings] = React.useState<SettingsType>({
         modalSettingsVisible: false,
         mainColor: '#6655f3',
         isFixedTrash: false,
         theme: 'light'
-    };
-
-    const [settings, setSettings] =
-        React.useState<SettingsType>(defaultSettings);
+    });
 
     const changeSetting = (
         setting: keyof SettingsType,
@@ -26,7 +23,12 @@ export const useSettings = () => {
 
         if (settingsRaw) setSettings(JSON.parse(settingsRaw));
         else {
-            setSettings(defaultSettings);
+            setSettings({
+                modalSettingsVisible: false,
+                mainColor: '#6655f3',
+                isFixedTrash: false,
+                theme: 'light'
+            });
         }
     }, []);
 

@@ -22,7 +22,11 @@ export default {
 
         settings: {
             title: 'Настройки',
-            theme: 'Тема',
+            theme: {
+                title: 'Тема',
+                light: 'Светлая',
+                dark: 'Тёмная'
+            },
             mainColor: 'Главный цвет',
             fixedTrash: 'Зафиксировать корзину'
         }
