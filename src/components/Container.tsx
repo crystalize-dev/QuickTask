@@ -135,7 +135,7 @@ const Container = ({
                             onClick={onAddItem}
                             className="hover: mt-auto"
                         >
-                            {t('modal.createTask')}
+                            {t('modal.createTask.title')}
                         </Button>
                     </motion.div>
                 ) : (
@@ -149,7 +149,11 @@ const Container = ({
                             markDeadOrAlive('alive', 'container', container.id)
                         }
                     >
-                        <Icon icon="recover" hover={false} />
+                        <Icon
+                            icon="recover"
+                            hover={false}
+                            className="text-inherit"
+                        />
                         <p>{t('recover')}</p>
                     </motion.div>
                 )}

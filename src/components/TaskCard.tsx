@@ -40,6 +40,16 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
         return () => setShowTrash(false);
     }, [isDragging, setShowTrash]);
 
+    const constructStyles = () => {
+        let resStyles = '';
+
+        if (task.status === 'dead') resStyles += 'hover:!opacity-80 ';
+        if (isDragging || task.status === 'dead') resStyles += '!opacity-50 ';
+        if (task.color) resStyles += '!text-white ';
+
+        return resStyles;
+    };
+
     return (
         <motion.div
             id={task.id.toString()}
@@ -50,13 +60,10 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
             {...attributes}
             style={{
                 transition,
-                transform: CSS.Translate.toString(transform)
+                transform: CSS.Translate.toString(transform),
+                backgroundColor: task.color ? task.color : undefined
             }}
-            className={`${
-                task.status === 'dead' && 'hover:!opacity-100'
-            } group w-full cursor-default rounded-xl border-none bg-white p-4 shadow-md outline-none dark:bg-darker-bg dark:text-white ${
-                (isDragging || task.status === 'dead') && '!opacity-50'
-            }`}
+            className={`group relative w-full max-w-full cursor-default rounded-xl border-none bg-white px-10 py-8 shadow-lg outline-none dark:bg-darker-bg dark:text-white ${constructStyles()}`}
         >
             <AnimatePresence initial={false}>
                 {task.status !== 'dead' ? (
@@ -72,14 +79,16 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                                     task.id
                                 )
                             }
-                            className="opacity-0 transition-all  group-hover:opacity-100"
+                            className="absolute left-2 top-3 w-6 align-baseline opacity-0 transition-all group-hover:opacity-100"
                         />
 
-                        {task.title}
+                        <p className="whitespace-pre-line break-all">
+                            {task.title}
+                        </p>
 
                         <Icon
                             icon="drag"
-                            className="ml-auto cursor-grab opacity-0 transition-all  group-hover:opacity-100"
+                            className="absolute right-3 top-3 ml-auto h-6 w-6 cursor-grab text-inherit opacity-0 transition-all group-hover:opacity-100"
                             listners={listeners}
                             hover={false}
                         />
@@ -100,7 +109,11 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                             )
                         }
                     >
-                        <Icon icon="recover" hover={false} />
+                        <Icon
+                            icon="recover"
+                            hover={false}
+                            className="text-inherit"
+                        />
                         <p>{t('recover')}</p>
                     </motion.div>
                 )}

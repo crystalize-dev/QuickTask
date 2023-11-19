@@ -27,7 +27,7 @@ export default function Textarea({
             className={
                 props.className +
                 ' ' +
-                'w-full border-none bg-transparent outline-none'
+                'w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-main focus:ring-0'
             }
             placeholder={props.placeholder}
             onChange={props.onChange}

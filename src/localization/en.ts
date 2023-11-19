@@ -7,6 +7,15 @@ export default {
         recover: 'Recover',
         restriction: 'Max {{length}} symbols',
         optional: 'Optional',
+        name: 'Name',
+        description: 'Description',
+        deadline: 'Deadline',
+        priority: 'Priority',
+        basedOn: 'Based on deadline',
+        low: 'Low',
+        medium: 'Medium',
+        high: 'High',
+        veryHigh: 'Very high',
 
         langSwitcher: {
             lang: 'Language',
@@ -21,12 +30,13 @@ export default {
             confirm: 'Are you sure?',
             createContainer: {
                 title: 'Create Category',
-                name: 'Name',
-                description: 'Description',
                 titlePlaceholder: 'E.g. Work',
                 descriptionPlaceholder: 'E.g. Important meetings'
             },
-            createTask: 'Add task'
+            createTask: {
+                title: 'Add task',
+                titlePlaceholder: 'E.g. Do some homework'
+            }
         },
 
         settings: {

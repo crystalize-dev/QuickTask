@@ -19,12 +19,12 @@ export default function ModalCreateContainer({
     setModal
 }: ContainerModalProps) {
     const defaultColors = [
-        '#84f542',
-        '#54c3ac',
-        '#ffa402',
-        '#d31d2b',
-        '#007390',
-        '#0d4c7f'
+        '#4ec20a',
+        '#359783',
+        '#cc8100',
+        '#b41825',
+        '#005266',
+        '#0a375c'
     ];
     const [activeColor, setActiveColor] = React.useState<string | null>(null);
 
@@ -48,8 +48,10 @@ export default function ModalCreateContainer({
             items: [],
             status: 'alive'
         } as ContainerType;
+
         addContainer(newContainer);
         setModal(false);
+        setActiveColor(null);
     };
 
     return (
@@ -63,10 +65,7 @@ export default function ModalCreateContainer({
                 </h1>
 
                 <WithLabel
-                    label={
-                        t('modal.createContainer.name') +
-                        ` (${t('restriction', { length: 32 })})`
-                    }
+                    label={t('name') + ` (${t('restriction', { length: 32 })})`}
                     className="w-full"
                 >
                     <Input
@@ -82,10 +81,7 @@ export default function ModalCreateContainer({
                 </WithLabel>
 
                 <WithLabel
-                    label={
-                        t('modal.createContainer.description') +
-                        ` (${t('optional')})`
-                    }
+                    label={t('description') + ` (${t('optional')})`}
                     className="w-full"
                 >
                     <Input

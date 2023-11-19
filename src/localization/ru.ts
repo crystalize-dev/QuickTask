@@ -7,6 +7,15 @@ export default {
         recover: 'Восстановить',
         restriction: 'Макс. {{length}} символов',
         optional: 'Не обязательно',
+        name: 'Название',
+        description: 'Описание',
+        deadline: 'Дедлайн',
+        priority: 'Приоритет',
+        basedOn: 'В зависимости от дедлайна',
+        low: 'Низкий',
+        medium: 'Средний',
+        high: 'Высокий',
+        veryHigh: 'Очень высокий',
 
         langSwitcher: {
             lang: 'Язык',
@@ -21,12 +30,13 @@ export default {
             confirm: 'Вы уверены?',
             createContainer: {
                 title: 'Создать категорию',
-                name: 'Название',
-                description: 'Описание',
                 titlePlaceholder: 'Напр. Работа',
                 descriptionPlaceholder: 'Напр. Деловые встречи'
             },
-            createTask: 'Добавить задачу'
+            createTask: {
+                title: 'Добавить задачу',
+                titlePlaceholder: 'Напр. Приготовить ужин'
+            }
         },
 
         settings: {

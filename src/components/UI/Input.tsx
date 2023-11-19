@@ -45,7 +45,7 @@ const Input = ({
             autoComplete={'off'}
             placeholder={placeholder}
             onChange={(e) => onChange(e)}
-            className="w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-white focus:ring-0"
+            className="w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-main focus:ring-0"
         />
     );
 };
