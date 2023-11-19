@@ -1,28 +1,22 @@
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import Icon from './SmallComponents/Icon';
+import { useTranslation } from 'react-i18next';
+import { TaskContext } from '../context/TaskContext';
+import { TaskType } from '../utility/Task-Types';
 
 type ItemsType = {
-    id: UniqueIdentifier;
+    task: TaskType;
     containerId?: UniqueIdentifier;
-    title: string;
     setShowTrash?: React.Dispatch<React.SetStateAction<boolean>>;
-    removeItem?: (
-        type: 'container' | 'task',
-        containerId?: UniqueIdentifier,
-        taskId?: UniqueIdentifier
-    ) => void;
 };
 
-const TaskCard = ({
-    id,
-    title,
-    setShowTrash,
-    removeItem,
-    containerId
-}: ItemsType) => {
+const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
+    const { markDeadOrAlive } = React.useContext(TaskContext);
+
     const {
         attributes,
         listeners,
@@ -31,12 +25,14 @@ const TaskCard = ({
         transition,
         isDragging
     } = useSortable({
-        id: id,
+        id: task.id,
         data: {
             type: 'item',
             containerId: containerId
         }
     });
+
+    const { t } = useTranslation();
 
     React.useEffect(() => {
         if (isDragging) setShowTrash && setShowTrash(true);
@@ -45,6 +41,7 @@ const TaskCard = ({
 
     return (
         <motion.div
+            id={task.id.toString()}
             initial={{ opacity: 1, scale: 1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
@@ -54,47 +51,59 @@ const TaskCard = ({
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`w-full cursor-pointer rounded-xl border border-transparent bg-white p-4 shadow-md dark:bg-darker-bg dark:text-white ${
-                isDragging && '!opacity-50'
+            className={`${
+                task.status === 'dead' && 'hover:!opacity-100'
+            } group w-full cursor-default rounded-xl border-none bg-white p-4 shadow-md outline-none dark:bg-darker-bg dark:text-white ${
+                (isDragging || task.status === 'dead') && '!opacity-50'
             }`}
         >
-            <div className="flex items-center gap-4">
-                <svg
-                    onClick={() =>
-                        removeItem && removeItem('task', containerId, id)
-                    }
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="currentColor"
-                    className="h-4 w-4 cursor-pointer transition-all hover:scale-125"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
+            <AnimatePresence initial={false}>
+                {task.status !== 'dead' ? (
+                    <div className="flex items-center gap-4">
+                        <Icon
+                            icon="xmark"
+                            onClick={() =>
+                                markDeadOrAlive &&
+                                markDeadOrAlive(
+                                    'dead',
+                                    'task',
+                                    containerId,
+                                    task.id
+                                )
+                            }
+                            className="opacity-0 transition-all  group-hover:opacity-100"
+                        />
 
-                {title}
+                        {task.title}
 
-                <svg
-                    {...listeners}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="ml-auto h-6 w-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
-            </div>
+                        <Icon
+                            icon="drag"
+                            className="ml-auto cursor-grab opacity-0 transition-all  group-hover:opacity-100"
+                            listners={listeners}
+                            hover={false}
+                        />
+                    </div>
+                ) : (
+                    <motion.div
+                        exit={{ scale: 0 }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="text-1xl flex h-full w-full cursor-pointer select-none items-center justify-center gap-2"
+                        onClick={() =>
+                            markDeadOrAlive &&
+                            markDeadOrAlive(
+                                'alive',
+                                'task',
+                                containerId,
+                                task.id
+                            )
+                        }
+                    >
+                        <Icon icon="recover" hover={false} />
+                        <p>{t('recover')}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };

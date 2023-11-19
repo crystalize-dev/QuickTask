@@ -1,12 +1,15 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
+import { UniqueIdentifier } from '@dnd-kit/core';
 
-    // Types
-    export type ContainerType = {
-        id: UniqueIdentifier;
-        title: string;
-        items: TaskType[];
-    };
-    export type TaskType = {
-        id: UniqueIdentifier;
-        title: string;
-    };
+// Types
+export type ContainerType = {
+    id: UniqueIdentifier;
+    title: string | undefined;
+    description: string;
+    items: TaskType[];
+    status: 'dead' | 'alive';
+};
+export type TaskType = {
+    id: UniqueIdentifier;
+    title: string;
+    status: 'dead' | 'alive';
+};

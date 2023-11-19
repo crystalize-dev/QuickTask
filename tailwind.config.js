@@ -22,6 +22,17 @@ export default {
         '9999': '9999',
         'absolute': '9999999999'
       },
+      maxWidth: {
+        '8xl': '88rem',
+      },
+      width: {
+        '1/10': '10%',
+        '1/20': '5%',
+      },
+      padding: {
+        '1/10': '10%',
+        '1/20': '5%',
+      }
     },
   },
   // eslint-disable-next-line no-undef

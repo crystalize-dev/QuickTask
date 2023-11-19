@@ -1,10 +1,6 @@
-# Fix:
-
-- Color picker on Task/Container create
-- Unificate color picker component (in Settings modal)
-
 # ToDo:
 
+- RemoveAll with confirmation
 - Modal window functionality (Containers + Tasks)
 - Task functionality (priotiry, deadline etc.)
 - Task Editing

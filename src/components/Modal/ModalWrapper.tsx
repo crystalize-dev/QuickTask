@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import Icon from '../SmallComponents/Icon';
 
 interface ModalProps {
     isVisible: boolean;
@@ -18,7 +19,8 @@ export default function Modal({ isVisible, setVisible, children }: ModalProps) {
                     className="fixed left-0 top-0 z-absolute flex h-full w-full items-center justify-center backdrop-blur"
                     onMouseDown={() => setVisible(false)}
                 >
-                    <svg
+                    <Icon
+                        icon={'xmark'}
                         onClick={() => setVisible(false)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

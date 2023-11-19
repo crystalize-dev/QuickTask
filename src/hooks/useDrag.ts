@@ -1,12 +1,27 @@
-import { DragEndEvent, DragMoveEvent, DragStartEvent, KeyboardSensor, PointerSensor, UniqueIdentifier, useSensor, useSensors } from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import React from "react";
-import { findValue } from "../utility/findValue";
-import { ContainerType } from "../utility/Task-Types";
+import {
+    DragEndEvent,
+    DragMoveEvent,
+    DragStartEvent,
+    KeyboardSensor,
+    PointerSensor,
+    UniqueIdentifier,
+    useSensor,
+    useSensors
+} from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import React from 'react';
+import { findValue } from '../utility/findValue';
+import { ContainerType } from '../utility/Task-Types';
 
-export const useDrag = (containers: ContainerType[], 
-                        setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>, 
-                        removeItem: (type: "container" | "task", conatinerId?: UniqueIdentifier, taskId?: UniqueIdentifier) => void) => {
+export const useDrag = (
+    containers: ContainerType[],
+    setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>,
+    removeItem: (
+        type: 'container' | 'task',
+        conatinerId?: UniqueIdentifier,
+        taskId?: UniqueIdentifier
+    ) => void
+) => {
     const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(
         null
     );
@@ -27,7 +42,6 @@ export const useDrag = (containers: ContainerType[],
 
     const handleDragMove = (event: DragMoveEvent) => {
         const { active, over } = event;
-
 
         // Handle Items Sorting
         if (
@@ -136,7 +150,7 @@ export const useDrag = (containers: ContainerType[],
         ) {
             if (!active.data.current) return;
 
-            removeItem('task', active.data.current.containerId, active.id)
+            removeItem('task', active.data.current.containerId, active.id);
         }
 
         if (
@@ -144,8 +158,8 @@ export const useDrag = (containers: ContainerType[],
             over?.id.toString().includes('trash') &&
             active &&
             over
-        ) {            
-            removeItem('container', active.id)
+        ) {
+            removeItem('container', active.id);
         }
 
         // Handle container Sorting
@@ -165,6 +179,7 @@ export const useDrag = (containers: ContainerType[],
 
             //Swap containers
             let newItems = [...containers];
+
             newItems = arrayMove(
                 newItems,
                 activeContainerIndex,
@@ -272,5 +287,11 @@ export const useDrag = (containers: ContainerType[],
         setActiveId(null);
     };
 
-    return {activeId, sensors, handleDragEnd, handleDragMove, handleDragStart}
-}
+    return {
+        activeId,
+        sensors,
+        handleDragEnd,
+        handleDragMove,
+        handleDragStart
+    };
+};

@@ -1,11 +1,10 @@
 import React from 'react';
-import { ContainerType } from '../utility/Task-Types';
+import { ContainerType, TaskType } from '../utility/Task-Types';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
 import { findValue } from '../utility/findValue';
-import { showConfirmationModal } from '../utility/copenConfirm';
-import ContainerCreateModal from '../components/Modal/ModalCreateCOntainer';
-import TaskCreateModal from '../components/Modal/ModalTaskCreate';
+import ModalTaskCreate from '../components/Modal/ModalTaskCreate';
+import ModalCreateContainer from '../components/Modal/ModalCreateContainer';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -28,7 +27,9 @@ export const useTasks = () => {
             {
                 id: id,
                 title: containerName,
-                items: []
+                items: [],
+                description: '',
+                status: 'alive'
             }
         ]);
 
@@ -46,7 +47,7 @@ export const useTasks = () => {
 
         if (!container) return;
 
-        container.items.push({ id, title: taskName });
+        container.items.push({ id, title: taskName, status: 'alive' });
 
         setContainers([...containers]);
         setTaskName('');
@@ -60,84 +61,160 @@ export const useTasks = () => {
     ) => {
         if (!ContainerId && !taskId) return;
 
-        await showConfirmationModal().then((res) => {
-            if (res) {
-                if (type === 'container') {
-                    setContainers([
-                        ...containers.filter(
-                            (container) => container.id !== ContainerId
-                        )
-                    ]);
-                } else {
-                    const targetContainer = findValue(
-                        ContainerId,
-                        'container',
-                        containers
-                    );
-
-                    if (!targetContainer) return;
-
-                    const newItems = targetContainer.items.filter(
-                        (task) => task.id !== taskId
-                    );
-
-                    targetContainer.items = newItems;
-
-                    setContainers([
-                        ...containers.map((container) => {
-                            if (container.id === targetContainer.id)
-                                return targetContainer;
-                            else return container;
-                        })
-                    ]);
-                }
+        switch (type) {
+            case 'container': {
+                setContainers([
+                    ...containers.filter(
+                        (container) => container.id !== ContainerId
+                    )
+                ]);
+                break;
             }
-        });
+            case 'task': {
+                const targetContainer = findValue(
+                    ContainerId,
+                    'container',
+                    containers
+                );
+
+                if (!targetContainer) return;
+
+                const newItems = targetContainer.items.filter(
+                    (task) => task.id !== taskId
+                );
+
+                targetContainer.items = newItems;
+
+                setContainers([
+                    ...containers.map((container) => {
+                        if (container.id === targetContainer.id)
+                            return targetContainer;
+                        else return container;
+                    })
+                ]);
+                break;
+            }
+        }
+    };
+
+    const markDeadOrAlive = (
+        status: 'dead' | 'alive',
+        type: 'container' | 'task',
+        ContainerId?: UniqueIdentifier,
+        taskId?: UniqueIdentifier
+    ) => {
+        if (!ContainerId && !taskId) return;
+
+        switch (type) {
+            case 'container': {
+                setContainers([
+                    ...containers.map((container) => {
+                        if (container.id === ContainerId)
+                            return {
+                                ...container,
+                                status: status
+                            } as ContainerType;
+                        else return container;
+                    })
+                ]);
+                break;
+            }
+            case 'task': {
+                const targetContainer = findValue(
+                    ContainerId,
+                    'container',
+                    containers
+                );
+
+                if (!targetContainer) return;
+
+                const newItems = targetContainer.items.map((task) => {
+                    if (task.id === taskId)
+                        return { ...task, status: status } as TaskType;
+                    else return task;
+                });
+
+                targetContainer.items = newItems;
+
+                setContainers([
+                    ...containers.map((container) => {
+                        if (container.id === targetContainer.id)
+                            return targetContainer;
+                        else return container;
+                    })
+                ]);
+                break;
+            }
+        }
     };
 
     const onSubmit = (e: React.FormEvent, type: 'container' | 'task') => {
         e.preventDefault();
 
-        if (type === 'container') {
-            setContainerName('');
-            setContainerModal(false);
-            onAddContainer();
-        } else {
-            setTaskName('');
-            setTaskModal(false);
-            onAddTask();
+        switch (type) {
+            case 'container': {
+                setContainerName('');
+                setContainerModal(false);
+                onAddContainer();
+                break;
+            }
+            case 'task': {
+                setTaskName('');
+                setTaskModal(false);
+                onAddTask();
+                break;
+            }
         }
     };
 
-    const TaskModal = (
-        <TaskCreateModal
-            taskModal={taskModal}
-            setTaskModal={setTaskModal}
-            onSubmit={onSubmit}
-            taskName={taskName}
-            setTaskName={setTaskName}
-        />
-    );
+    const TaskModal = () => {
+        return (
+            <ModalTaskCreate
+                taskModal={taskModal}
+                setTaskModal={setTaskModal}
+                onSubmit={onSubmit}
+                taskName={taskName}
+                setTaskName={setTaskName}
+            />
+        );
+    };
 
-    const ContainerModal = (
-        <ContainerCreateModal
-            containerModal={containerModal}
-            setContainerModal={setContainerModal}
-            onSubmit={onSubmit}
-            containerName={containerName}
-            setContainerName={setContainerName}
-        />
-    );
+    const ContainerModal = () => {
+        return (
+            <ModalCreateContainer
+                containerModal={containerModal}
+                setContainerModal={setContainerModal}
+                onSubmit={onSubmit}
+                containerName={containerName}
+                setContainerName={setContainerName}
+            />
+        );
+    };
 
     React.useEffect(() => {
-        const tasks = localStorage.getItem('tasks');
-        if (tasks) {
-            setContainers(JSON.parse(tasks));
+        const containers = localStorage.getItem('containers');
+        if (containers) {
+            let aliveContainers = JSON.parse(containers).filter(
+                (container: ContainerType) => container.status !== 'dead'
+            );
+
+            aliveContainers = aliveContainers.map(
+                (container: ContainerType) => {
+                    return {
+                        ...container,
+                        items: container.items.filter(
+                            (task) => task.status !== 'dead'
+                        )
+                    };
+                }
+            );
+
+            setContainers(aliveContainers);
         }
     }, []);
 
     React.useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(containers));
+        localStorage.setItem('containers', JSON.stringify(containers));
     }, [containers]);
 
     return {
@@ -148,6 +225,7 @@ export const useTasks = () => {
         setCurrentContainerId,
         setContainerModal,
         setTaskModal,
+        markDeadOrAlive,
         removeItem
     };
 };

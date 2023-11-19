@@ -1,41 +1,25 @@
-import {
-    DndContext,
-    DragOverlay,
-    UniqueIdentifier,
-    closestCorners
-} from '@dnd-kit/core';
+import { DndContext, closestCorners } from '@dnd-kit/core';
 import React from 'react';
 import { useDrag } from '../hooks/useDrag';
-import { ContainerType } from '../utility/Task-Types';
 import { SortableContext } from '@dnd-kit/sortable';
 import Container from './Container';
 import TaskCard from './TaskCard';
-import { findValue } from '../utility/findValue';
 import { AnimatePresence } from 'framer-motion';
-import Trash from './Trash';
+import Trash from './SmallComponents/Trash';
 import nothingFound from '../assets/nothingFound.png';
+import { useTranslation } from 'react-i18next';
+import Dragoverlay from './Dragoverlay';
+import { TaskContext } from '../context/TaskContext';
 
-interface TaskTableProps {
-    containers: ContainerType[];
-    setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>;
-    setTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setCurrentContainerId: React.Dispatch<
-        React.SetStateAction<UniqueIdentifier | undefined>
-    >;
-    removeItem: (
-        type: 'container' | 'task',
-        containerId?: UniqueIdentifier,
-        taskId?: UniqueIdentifier
-    ) => void;
-}
+export default function TaskTable() {
+    const {
+        containers,
+        setContainers,
+        setTaskModal,
+        setCurrentContainerId,
+        removeItem
+    } = React.useContext(TaskContext);
 
-export default function TaskTable({
-    containers,
-    setContainers,
-    setTaskModal,
-    setCurrentContainerId,
-    removeItem
-}: TaskTableProps) {
     const {
         activeId,
         sensors,
@@ -70,14 +54,11 @@ export default function TaskTable({
                         containers.map((container) => (
                             <Container
                                 key={container.id}
-                                title={container.title}
-                                id={container.id}
-                                setShowTrash={setShowTrash}
+                                container={container}
                                 onAddItem={() => {
                                     setTaskModal(true);
                                     setCurrentContainerId(container.id);
                                 }}
-                                removeItem={removeItem}
                             >
                                 <SortableContext
                                     items={container.items.map(
@@ -89,16 +70,14 @@ export default function TaskTable({
                                             {container.items.length !== 0 ? (
                                                 container.items.map((item) => (
                                                     <TaskCard
+                                                        task={item}
                                                         containerId={
                                                             container.id
                                                         }
                                                         key={item.id}
-                                                        title={item.title}
-                                                        id={item.id}
                                                         setShowTrash={
                                                             setShowTrash
                                                         }
-                                                        removeItem={removeItem}
                                                     />
                                                 ))
                                             ) : (
@@ -124,49 +103,7 @@ export default function TaskTable({
                     )}
                 </SortableContext>
 
-                <DragOverlay>
-                    {activeId && activeId.toString().includes('item') && (
-                        <TaskCard
-                            id={activeId}
-                            title={String(
-                                findValue(
-                                    activeId,
-                                    'item',
-                                    containers
-                                )?.items.find((item) => item.id === activeId)
-                                    ?.title
-                            )}
-                        />
-                    )}
-                    {activeId && activeId.toString().includes('container') && (
-                        <Container
-                            id={activeId}
-                            title={
-                                findValue(activeId, 'container', containers)
-                                    ?.title
-                            }
-                        >
-                            {findValue(activeId, 'container', containers)?.items
-                                .length !== 0 ? (
-                                findValue(
-                                    activeId,
-                                    'container',
-                                    containers
-                                )?.items.map((item) => (
-                                    <TaskCard
-                                        key={item.id}
-                                        id={item.id}
-                                        title={item.title}
-                                    />
-                                ))
-                            ) : (
-                                <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
-                                    Nothing yet!
-                                </p>
-                            )}
-                        </Container>
-                    )}
-                </DragOverlay>
+                <Dragoverlay activeId={activeId} />
             </DndContext>
         </div>
     );

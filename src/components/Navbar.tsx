@@ -1,15 +1,19 @@
 import React from 'react';
-import Button from './UI/Button';
+import Button from './SmallComponents/Button';
 import logo from '../assets/logo.webp';
-import Settings from './Settings';
+import { useTranslation } from 'react-i18next';
+import Icon from './SmallComponents/Icon';
+import ModalSettings from './Modal/ModalSettings';
+import { SettingsContext } from '../context/SettingsContext';
+import { TaskContext } from '../context/TaskContext';
 
-interface NavbarProps {
-    setContainerModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export default function Navbar() {
+    const { t } = useTranslation();
+    const { changeSetting } = React.useContext(SettingsContext);
+    const { setContainerModal } = React.useContext(TaskContext);
 
-export default function Navbar({ setContainerModal }: NavbarProps) {
     return (
-        <div className="relative flex select-none items-center justify-between gap-4 md:justify-normal">
+        <div className="relative flex h-fit w-full select-none items-center justify-between gap-4 md:justify-normal">
             <img
                 src={logo}
                 alt="logo"
@@ -28,7 +32,13 @@ export default function Navbar({ setContainerModal }: NavbarProps) {
                 Add category
             </Button>
 
-            <Settings />
+            <Icon
+                icon="settings"
+                onClick={() => changeSetting('modalSettingsVisible', true)}
+                className="h-7 w-7"
+            />
+
+            <ModalSettings />
         </div>
     );
 }

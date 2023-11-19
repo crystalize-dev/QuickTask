@@ -1,32 +1,30 @@
-import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import Button from './UI/Button';
+import Button from './SmallComponents/Button';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Icon from './SmallComponents/Icon';
+import { AnimatePresence, motion } from 'framer-motion';
+import { TaskContext } from '../context/TaskContext';
+import { ContainerType } from '../utility/Task-Types';
 
 interface ContainerProps {
-    id: UniqueIdentifier;
-    children: React.ReactNode;
-    title?: string;
-    description?: string;
+    container: ContainerType;
     onAddItem?: () => void;
-    removeItem?: (
-        type: 'container' | 'task',
-        containerId?: UniqueIdentifier,
-        taskId?: UniqueIdentifier
-    ) => void;
     setShowTrash?: React.Dispatch<React.SetStateAction<boolean>>;
+    children: React.ReactNode;
 }
 
 const Container = ({
-    id,
-    children,
-    title,
-    description,
+    container,
     onAddItem,
-    removeItem,
-    setShowTrash
+    setShowTrash,
+    children
 }: ContainerProps) => {
+    const { markDeadOrAlive } = React.useContext(TaskContext);
+
+    const { t } = useTranslation();
+
     const {
         attributes,
         setNodeRef,
@@ -35,7 +33,7 @@ const Container = ({
         transition,
         isDragging
     } = useSortable({
-        id: id,
+        id: container.id,
         data: {
             type: 'container'
         }
@@ -49,58 +47,82 @@ const Container = ({
     return (
         <div
             {...attributes}
+            id={container.id.toString()}
             ref={setNodeRef}
             style={{
                 transition,
                 transform: CSS.Translate.toString(transform)
             }}
-            className={`flex h-full w-full flex-col gap-y-4 rounded-xl bg-gray-200 p-4 transition-all dark:bg-dark-obj dark:text-white ${
-                isDragging && '!opacity-50'
+            className={`${
+                container.status === 'dead' && 'hover:!opacity-80'
+            } group/container relative min-h-max w-full cursor-default rounded-xl border-none bg-gray-200 outline-none dark:bg-dark-obj dark:text-white ${
+                (isDragging || container.status === 'dead') && '!opacity-50'
             }`}
         >
-            <div className="flex items-center gap-4">
-                <svg
-                    onClick={() => removeItem && removeItem('container', id)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="currentColor"
-                    className="h-4 w-4 cursor-pointer transition-all hover:scale-125"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
+            <AnimatePresence initial={false}>
+                {status !== 'dead' ? (
+                    <motion.div
+                        className="flex h-full w-full flex-col gap-y-4 p-4"
+                        exit={{ scale: 0 }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                    >
+                        <div className="flex items-center gap-4">
+                            <Icon
+                                icon="xmark"
+                                onClick={() =>
+                                    markDeadOrAlive &&
+                                    markDeadOrAlive(
+                                        'dead',
+                                        'container',
+                                        container.id
+                                    )
+                                }
+                                className="opacity-0 transition-all  group-hover/container:opacity-100"
+                            />
 
-                <div className="flex flex-col gap-y-1">
-                    <h1 className="select-none text-xl">{title}</h1>
-                    <p className="text-sm">{description}</p>
-                </div>
+                            <div className="flex flex-col gap-y-1">
+                                <h1 className="select-none text-xl">
+                                    {container.title}
+                                </h1>
+                                <p className="text-sm">
+                                    {container.description}
+                                </p>
+                            </div>
 
-                <svg
-                    {...listeners}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="ml-auto h-6 w-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
-            </div>
+                            <Icon
+                                icon="drag"
+                                listners={listeners}
+                                hover={false}
+                                className="ml-auto cursor-grab opacity-0 transition-all group-hover/container:opacity-100"
+                            />
+                        </div>
 
-            {children}
-            <Button variant="ghost" onClick={onAddItem}>
-                Add Item
-            </Button>
+                        {children}
+                        <Button
+                            variant="ghost"
+                            onClick={onAddItem}
+                            className="mt-auto"
+                        >
+                            {t('modal.createTask')}
+                        </Button>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        exit={{ scale: 0 }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="flex h-full w-full cursor-pointer select-none items-center justify-center gap-2 text-3xl transition-all"
+                        onClick={() =>
+                            markDeadOrAlive &&
+                            markDeadOrAlive('alive', 'container', container.id)
+                        }
+                    >
+                        <Icon icon="recover" hover={false} />
+                        <p>{t('recover')}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

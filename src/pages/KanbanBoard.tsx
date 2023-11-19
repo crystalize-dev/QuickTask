@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { useScroll } from 'framer-motion';
-import ArrowUp from '../components/ArrowUp';
+import ArrowUp from '../components/SmallComponents/ArrowUp';
 import Navbar from '../components/Navbar';
 import TaskTable from '../components/TaskTable';
+import { TaskContext } from '../context/TaskContext';
 
 export default function KanbanBoard() {
     const ref = React.useRef(null);
@@ -17,28 +18,40 @@ export default function KanbanBoard() {
         setCurrentContainerId,
         setContainerModal,
         setTaskModal,
+        markDeadOrAlive,
         removeItem
     } = useTasks();
 
     return (
-        <div
-            ref={ref}
-            className="wrapper h-screen w-screen overflow-y-scroll bg-white px-4 dark:bg-dark-bg"
+        <TaskContext.Provider
+            value={{
+                ContainerModal,
+                TaskModal,
+                containers,
+                setContainers,
+                setCurrentContainerId,
+                setContainerModal,
+                setTaskModal,
+                markDeadOrAlive,
+                removeItem
+            }}
         >
-            <ArrowUp scrollY={scrollY} />
+            <div
+                ref={ref}
+                className="wrapper relative h-screen w-screen overflow-y-scroll bg-white px-4 dark:bg-dark-bg"
+            >
+                <ArrowUp scrollY={scrollY} />
 
-            <div className="mx-auto flex max-w-7xl flex-col gap-8 py-10">
-                {ContainerModal}
-                {TaskModal}
-                <Navbar setContainerModal={setContainerModal} />
-                <TaskTable
-                    containers={containers}
-                    removeItem={removeItem}
-                    setContainers={setContainers}
-                    setTaskModal={setTaskModal}
-                    setCurrentContainerId={setCurrentContainerId}
-                />
+                <div className="px-1/20 mx-auto flex max-w-8xl flex-col gap-8 py-4">
+                    <ContainerModal />
+
+                    <TaskModal />
+
+                    <Navbar />
+
+                    <TaskTable />
+                </div>
             </div>
-        </div>
+        </TaskContext.Provider>
     );
 }

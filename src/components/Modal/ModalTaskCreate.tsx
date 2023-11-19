@@ -1,8 +1,9 @@
 import React from 'react';
-import Modal from './ModalWrapper';
-import Input from '../UI/Input';
-import Button from '../UI/Button';
-import ColorInput from '../UI/ColorInput';
+import ModalWrapper from './ModalWrapper';
+import Input from '../SmallComponents/Input';
+import Button from '../SmallComponents/Button';
+import ColorInput from '../SmallComponents/ColorInput';
+import { useTranslation } from 'react-i18next';
 
 interface TaskModalProps {
     taskModal: boolean;

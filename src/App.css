@@ -7,7 +7,6 @@ button,
 a {
     user-select: none;
 }
-
 .wrapper[data-theme='light'] {
     --background: white;
 }
