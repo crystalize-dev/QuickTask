@@ -61,6 +61,7 @@ export default function TaskTable() {
                                     setTaskModal(true);
                                     setCurrentContainerId(container.id);
                                 }}
+                                setShowTrash={setShowTrash}
                             >
                                 <SortableContext
                                     items={container.items.map(

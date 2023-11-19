@@ -31,8 +31,8 @@ export default function Trash({ isDragging }: TrashProps) {
                 visible
                     ? 'opacity-1 pointer-events-auto -translate-x-0'
                     : 'pointer-events-none -translate-x-full opacity-0'
-            } w-1/20 fixed -left-2 top-0 z-9999 hidden h-full !cursor-default items-center justify-center border-2 border-dashed border-transparent bg-main text-black transition-all lg:flex ${
-                isOver && '!w-1/10 !border-red-500 !bg-transparent'
+            } fixed -left-2 top-0 z-9999 hidden h-full w-1/20 !cursor-default items-center justify-center border-2 border-dashed border-transparent bg-main text-black transition-all lg:flex ${
+                isOver && '!w-1/10 !border-main !bg-transparent'
             }`}
         >
             <Icon
