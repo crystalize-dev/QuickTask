@@ -17,6 +17,8 @@ export default function ModalSettings() {
         '#6655f3'
     ];
 
+    const { t } = useTranslation();
+
     const { settings, changeSetting } = React.useContext(SettingsContext);
 
     const changeFixedTrash = (e: React.ChangeEvent) => {

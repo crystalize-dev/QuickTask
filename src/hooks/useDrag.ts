@@ -158,8 +158,6 @@ export const useDrag = (
 
             newItems[overContainerIndex].items.push(removedItem);
             setContainers(newItems);
-
-            console.log(activeContainer, overContainer);
         }
     };
 
