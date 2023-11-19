@@ -6,6 +6,7 @@ import {
     useMotionValueEvent
 } from 'framer-motion';
 import { useState } from 'react';
+import Icon from './UI/Icon';
 
 interface IProps {
     scrollY: MotionValue<number>;
@@ -27,31 +28,25 @@ export default function ArrowUp({ scrollY }: IProps) {
 
     return (
         <>
-            <div className="w-ful absolute left-0 top-0 h-14" id="start" />
+            <div
+                className="absolute left-0 top-0 z-absolute h-14 w-full"
+                id="start"
+            />
+
             <AnimatePresence>
                 {visible && (
                     <motion.a
                         initial="hidden"
                         animate="visible"
                         exit={'hidden'}
-                        className="fixed bottom-1 right-2 z-50 cursor-pointer bg-main p-3 text-xs text-white md:bottom-6 md:right-8"
+                        className="fixed bottom-1 right-1 z-50 cursor-pointer rounded-full bg-main p-3 text-xs text-white md:bottom-6 md:right-8 md:rounded-none"
                         href="#start"
                         variants={arrowVariants}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="3"
-                            stroke="currentColor"
-                            className="h-4 w-4"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
-                            />
-                        </svg>
+                        <Icon
+                            path="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
+                            hover={false}
+                        />
                     </motion.a>
                 )}
             </AnimatePresence>

@@ -6,6 +6,8 @@ interface IProps {
 }
 
 const ModalConfirmation = ({ onConfirm }: IProps) => {
+    const { t } = useTranslation();
+
     const handleConfirm = () => {
         onConfirm(true);
     };
@@ -31,22 +33,22 @@ const ModalConfirmation = ({ onConfirm }: IProps) => {
                 onMouseDown={(e) => e.stopPropagation()}
             >
                 <p className="text-center text-xl font-semibold">
-                    Are you sure?
+                    {t('modal.confirm')}
                 </p>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                     <button
                         autoFocus
                         type="submit"
                         className="flex h-12 w-24 cursor-pointer items-center justify-center rounded-lg bg-green-500 px-4 py-2 text-white"
                     >
-                        Да
+                        {t('yes')}
                     </button>
                     <div
                         className="flex h-12 w-24 cursor-pointer items-center justify-center rounded-lg bg-red-500 px-4 py-2 text-white"
                         onClick={handleCancel}
                     >
-                        Нет
+                        {t('no')}
                     </div>
                 </div>
             </div>

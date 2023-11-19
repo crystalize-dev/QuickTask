@@ -29,7 +29,7 @@ export default function Navbar() {
                 className="md:ml-auto"
                 onClick={() => setContainerModal(true)}
             >
-                Add category
+                {t('navbar.button')}
             </Button>
 
             <Icon

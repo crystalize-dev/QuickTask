@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import ModalConfirmation from '../components/Modal/modalConfirmation';
+import ModalConfirmation from '../components/Modal/ModalConfirmation';
 
 export const showConfirmationModal = () =>
     new Promise((resolve) => {

@@ -12,7 +12,30 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import React from 'react';
 import { findValue } from '../utility/findValue';
 import { ContainerType } from '../utility/Task-Types';
+import {
+    DragEndEvent,
+    DragMoveEvent,
+    DragStartEvent,
+    KeyboardSensor,
+    PointerSensor,
+    UniqueIdentifier,
+    useSensor,
+    useSensors
+} from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import React from 'react';
+import { findValue } from '../utility/findValue';
+import { ContainerType } from '../utility/Task-Types';
 
+export const useDrag = (
+    containers: ContainerType[],
+    setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>,
+    removeItem: (
+        type: 'container' | 'task',
+        conatinerId?: UniqueIdentifier,
+        taskId?: UniqueIdentifier
+    ) => void
+) => {
 export const useDrag = (
     containers: ContainerType[],
     setContainers: React.Dispatch<React.SetStateAction<ContainerType[]>>,
@@ -135,6 +158,8 @@ export const useDrag = (
 
             newItems[overContainerIndex].items.push(removedItem);
             setContainers(newItems);
+
+            console.log(activeContainer, overContainer);
         }
     };
 
@@ -151,6 +176,7 @@ export const useDrag = (
             if (!active.data.current) return;
 
             removeItem('task', active.data.current.containerId, active.id);
+            removeItem('task', active.data.current.containerId, active.id);
         }
 
         if (
@@ -158,6 +184,8 @@ export const useDrag = (
             over?.id.toString().includes('trash') &&
             active &&
             over
+        ) {
+            removeItem('container', active.id);
         ) {
             removeItem('container', active.id);
         }
@@ -286,6 +314,15 @@ export const useDrag = (
 
         setActiveId(null);
     };
+
+    return {
+        activeId,
+        sensors,
+        handleDragEnd,
+        handleDragMove,
+        handleDragStart
+    };
+};
 
     return {
         activeId,

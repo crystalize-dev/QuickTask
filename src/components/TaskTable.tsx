@@ -30,6 +30,8 @@ export default function TaskTable() {
 
     const [showTrash, setShowTrash] = React.useState(false);
 
+    const { t } = useTranslation();
+
     return (
         <div
             className={`${
@@ -82,7 +84,7 @@ export default function TaskTable() {
                                                 ))
                                             ) : (
                                                 <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
-                                                    Nothing yet!
+                                                    {t('nothing')}
                                                 </p>
                                             )}
                                         </AnimatePresence>
@@ -98,7 +100,7 @@ export default function TaskTable() {
                                 draggable={false}
                                 className="h-3/4"
                             />
-                            <h1>Nothing yet!</h1>
+                            <h1> {t('nothing')}</h1>
                         </div>
                     )}
                 </SortableContext>

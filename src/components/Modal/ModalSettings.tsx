@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from './ModalWrapper';
+import ModalWrapper from './ModalWrapper';
 import { SettingsContext } from '../../context/SettingsContext';
 import Checkbox from '../SmallComponents/Checkbox';
 import ThemeSwitcher from '../SmallComponents/ThemeSwitcher';
@@ -17,15 +17,21 @@ export default function ModalSettings() {
         '#6655f3'
     ];
 
-    const { setSettingsModal, setFixedTrash, isFixedTrash, switchLang } =
-        React.useContext(SettingsContext);
+    const { settings, changeSetting } = React.useContext(SettingsContext);
 
     const changeFixedTrash = (e: React.ChangeEvent) => {
-        setFixedTrash((e.target as HTMLInputElement).checked);
+        changeSetting('isFixedTrash', (e.target as HTMLInputElement).checked);
+    };
+
+    const changeColor = (color: string | null) => {
+        if (color) changeSetting('mainColor', color);
     };
 
     return (
-        <Modal isVisible={modal} setVisible={setSettingsModal}>
+        <ModalWrapper
+            isVisible={settings?.modalSettingsVisible}
+            setVisible={() => changeSetting('modalSettingsVisible', false)}
+        >
             <div className="flex flex-col items-center gap-4">
                 <Icon
                     icon="settings"
@@ -66,11 +72,11 @@ export default function ModalSettings() {
                     <p>{t('settings.fixedTrash')} - </p>
 
                     <Checkbox
-                        checked={isFixedTrash}
+                        checked={settings.isFixedTrash}
                         onChange={(e) => changeFixedTrash(e)}
                     />
                 </div>
             </div>
-        </Modal>
+        </ModalWrapper>
     );
 }

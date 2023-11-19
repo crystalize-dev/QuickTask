@@ -35,9 +35,8 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
     const { t } = useTranslation();
 
     React.useEffect(() => {
-        if (isDragging) setShowTrash && setShowTrash(true);
-        else setShowTrash && setShowTrash(false);
-    }, [isDragging]);
+        setShowTrash && setShowTrash(isDragging);
+    }, [isDragging, setShowTrash]);
 
     return (
         <motion.div

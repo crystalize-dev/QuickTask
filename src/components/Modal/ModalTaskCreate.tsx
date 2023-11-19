@@ -13,20 +13,36 @@ interface TaskModalProps {
     setTaskName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function TaskCreateModal({
+export default function ModalTaskCreate({
     taskModal,
     setTaskModal,
     onSubmit,
     taskName,
     setTaskName
 }: TaskModalProps) {
+    const { t } = useTranslation();
+
+    const defaultColors = [
+        'green',
+        'lime',
+        '#54c3ac',
+        'yellow',
+        '#ffa402',
+        '#d31d2b',
+        '#007390',
+        '#0d4c7f'
+    ];
+    const [taskColor, setTaskColor] = React.useState<string | null>(
+        defaultColors[0]
+    );
+
     return (
-        <Modal isVisible={taskModal} setVisible={setTaskModal}>
+        <ModalWrapper isVisible={taskModal} setVisible={setTaskModal}>
             <form
                 className="flex w-full flex-col items-start gap-y-4"
                 onSubmit={(e) => onSubmit(e, 'task')}
             >
-                <h1 className="text-3xl font-bold ">Add task</h1>
+                <h1 className="text-3xl font-bold ">{t('modal.createTask')}</h1>
 
                 <Input
                     type="text"
@@ -37,10 +53,15 @@ export default function TaskCreateModal({
                     onChange={(e) => setTaskName(e.target.value)}
                 />
 
-                <ColorInput />
+                <ColorInput
+                    withTransparent={true}
+                    defaultMap={defaultColors}
+                    onClick={setTaskColor}
+                    activeColor={taskColor}
+                />
 
-                <Button type="submit">Add task</Button>
+                <Button type="submit">{t('submit')}</Button>
             </form>
-        </Modal>
+        </ModalWrapper>
     );
 }
