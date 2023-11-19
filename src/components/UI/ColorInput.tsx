@@ -4,7 +4,9 @@ import transparent from '../../assets/transparent.jpg';
 interface ColorInputProps {
     defaultMap: Array<string>;
     activeColor: string | null;
-    onClick: (color: string | null) => void;
+    onClick: (
+        color: string | null
+    ) => void | React.Dispatch<React.SetStateAction<string | null>>;
     withTransparent?: boolean;
 }
 

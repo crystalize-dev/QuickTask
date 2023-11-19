@@ -19,7 +19,8 @@ type IconType =
     | 'arrowUp'
     | 'language'
     | 'drag'
-    | 'recover';
+    | 'recover'
+    | 'questionRound';
 
 export default function Icon({
     icon,

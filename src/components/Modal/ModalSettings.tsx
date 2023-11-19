@@ -1,20 +1,20 @@
 import React from 'react';
 import ModalWrapper from './ModalWrapper';
 import { SettingsContext } from '../../context/SettingsContext';
-import Checkbox from '../SmallComponents/Checkbox';
+import Checkbox from '../UI/Checkbox';
 import ThemeSwitcher from '../SmallComponents/ThemeSwitcher';
 import LangSwitcher from '../SmallComponents/LangSwitcher';
 import { useTranslation } from 'react-i18next';
-import ColorInput from '../SmallComponents/ColorInput';
+import ColorInput from '../UI/ColorInput';
 import Icon from '../SmallComponents/Icon';
 
 export default function ModalSettings() {
     const defaultColors = [
-        '#8f0097',
+        '#4657ce',
         '#ff334d',
-        '#a1c42c',
-        '#50b6f6',
-        '#6655f3'
+        '#fc4422',
+        '#21bdca',
+        '#00b589'
     ];
 
     const { t } = useTranslation();

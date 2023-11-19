@@ -1,10 +1,7 @@
 import React from 'react';
 import { ContainerType, TaskType } from '../utility/Task-Types';
 import { UniqueIdentifier } from '@dnd-kit/core';
-import { v4 as uuidv4 } from 'uuid';
 import { findValue } from '../utility/findValue';
-import ModalTaskCreate from '../components/Modal/ModalTaskCreate';
-import ModalCreateContainer from '../components/Modal/ModalCreateContainer';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);
@@ -12,46 +9,24 @@ export const useTasks = () => {
     const [currentContainerId, setCurrentContainerId] =
         React.useState<UniqueIdentifier>();
 
-    const [containerName, setContainerName] = React.useState('');
-    const [taskName, setTaskName] = React.useState('');
+    const addContainer = (container: ContainerType) => {
+        if (!container) return;
 
-    const [containerModal, setContainerModal] = React.useState(false);
-    const [taskModal, setTaskModal] = React.useState(false);
-
-    const onAddContainer = () => {
-        if (!containerName) return;
-
-        const id = `container-${uuidv4()}`;
-        setContainers([
-            ...containers,
-            {
-                id: id,
-                title: containerName,
-                items: [],
-                description: '',
-                status: 'alive'
-            }
-        ]);
-
-        setContainerModal(false);
-        setContainerName('');
+        setContainers([...containers, container]);
     };
 
-    const onAddTask = () => {
-        if (!taskName) return;
+    const addTask = (task: TaskType) => {
+        if (!task) return;
 
-        const id = `item-${uuidv4()}`;
         const container = containers.find(
             (item) => item.id === currentContainerId
         );
 
         if (!container) return;
 
-        container.items.push({ id, title: taskName, status: 'alive' });
+        container.items.push(task);
 
         setContainers([...containers]);
-        setTaskName('');
-        setTaskModal(false);
     };
 
     const removeItem = async (
@@ -148,49 +123,6 @@ export const useTasks = () => {
         }
     };
 
-    const onSubmit = (e: React.FormEvent, type: 'container' | 'task') => {
-        e.preventDefault();
-
-        switch (type) {
-            case 'container': {
-                setContainerName('');
-                setContainerModal(false);
-                onAddContainer();
-                break;
-            }
-            case 'task': {
-                setTaskName('');
-                setTaskModal(false);
-                onAddTask();
-                break;
-            }
-        }
-    };
-
-    const TaskModal = () => {
-        return (
-            <ModalTaskCreate
-                taskModal={taskModal}
-                setTaskModal={setTaskModal}
-                onSubmit={onSubmit}
-                taskName={taskName}
-                setTaskName={setTaskName}
-            />
-        );
-    };
-
-    const ContainerModal = () => {
-        return (
-            <ModalCreateContainer
-                containerModal={containerModal}
-                setContainerModal={setContainerModal}
-                onSubmit={onSubmit}
-                containerName={containerName}
-                setContainerName={setContainerName}
-            />
-        );
-    };
-
     React.useEffect(() => {
         const containers = localStorage.getItem('containers');
         if (containers) {
@@ -218,13 +150,11 @@ export const useTasks = () => {
     }, [containers]);
 
     return {
-        ContainerModal,
-        TaskModal,
         containers,
+        addContainer,
         setContainers,
+        addTask,
         setCurrentContainerId,
-        setContainerModal,
-        setTaskModal,
         markDeadOrAlive,
         removeItem
     };

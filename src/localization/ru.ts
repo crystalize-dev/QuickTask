@@ -5,6 +5,8 @@ export default {
         no: 'Нет',
         submit: 'Готово',
         recover: 'Восстановить',
+        restriction: 'Макс. {{length}} символов',
+        optional: 'Не обязательно',
 
         langSwitcher: {
             lang: 'Язык',
@@ -17,7 +19,13 @@ export default {
 
         modal: {
             confirm: 'Вы уверены?',
-            createContainer: 'Создать категорию',
+            createContainer: {
+                title: 'Создать категорию',
+                name: 'Название',
+                description: 'Описание',
+                titlePlaceholder: 'Напр. Работа',
+                descriptionPlaceholder: 'Напр. Деловые встречи'
+            },
             createTask: 'Добавить задачу'
         },
 

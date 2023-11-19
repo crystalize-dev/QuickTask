@@ -1,16 +1,18 @@
 import React from 'react';
-import Button from './SmallComponents/Button';
+import Button from './UI/Button';
 import logo from '../assets/logo.webp';
 import { useTranslation } from 'react-i18next';
 import Icon from './SmallComponents/Icon';
 import ModalSettings from './Modal/ModalSettings';
 import { SettingsContext } from '../context/SettingsContext';
-import { TaskContext } from '../context/TaskContext';
 
-export default function Navbar() {
+interface NavbarProps {
+    setModalContainer: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Navbar({ setModalContainer }: NavbarProps) {
     const { t } = useTranslation();
     const { changeSetting } = React.useContext(SettingsContext);
-    const { setContainerModal } = React.useContext(TaskContext);
 
     return (
         <div className="relative flex h-fit w-full select-none items-center justify-between gap-4 md:justify-normal">
@@ -26,8 +28,9 @@ export default function Navbar() {
             </h1>
 
             <Button
+                variant="main"
                 className="md:ml-auto"
-                onClick={() => setContainerModal(true)}
+                onClick={() => setModalContainer(true)}
             >
                 {t('navbar.button')}
             </Button>

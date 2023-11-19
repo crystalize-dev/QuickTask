@@ -10,6 +10,9 @@ export default {
       fontFamily: {
         main: ["Nunito", "sans-serif"],
       },
+      spacing: {
+        'full-gap': 'calc(100% + 0.5rem)',
+      },
       colors: {
         'main': "var(--main)",
         'dark-bg': '#292929',
@@ -24,6 +27,9 @@ export default {
       },
       maxWidth: {
         '8xl': '88rem',
+      },
+      minHeight: {
+        'sm': '13.5rem',
       },
       width: {
         '1/10': '10%',

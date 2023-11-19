@@ -10,15 +10,11 @@ import nothingFound from '../assets/nothingFound.png';
 import { useTranslation } from 'react-i18next';
 import Dragoverlay from './Dragoverlay';
 import { TaskContext } from '../context/TaskContext';
+import ModalTaskCreate from './Modal/ModalTaskCreate';
 
 export default function TaskTable() {
-    const {
-        containers,
-        setContainers,
-        setTaskModal,
-        setCurrentContainerId,
-        removeItem
-    } = React.useContext(TaskContext);
+    const { containers, setContainers, setCurrentContainerId } =
+        React.useContext(TaskContext);
 
     const {
         activeId,
@@ -26,9 +22,10 @@ export default function TaskTable() {
         handleDragEnd,
         handleDragMove,
         handleDragStart
-    } = useDrag(containers, setContainers, removeItem);
+    } = useDrag(containers, setContainers);
 
     const [showTrash, setShowTrash] = React.useState(false);
+    const [modalTask, setModalTask] = React.useState(false);
 
     const { t } = useTranslation();
 
@@ -40,6 +37,11 @@ export default function TaskTable() {
                     : 'grid grid-cols-1 gap-6 lg:grid-cols-3'
             }`}
         >
+            <ModalTaskCreate
+                taskModal={modalTask}
+                setTaskModal={setModalTask}
+            />
+
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCorners}
@@ -58,7 +60,7 @@ export default function TaskTable() {
                                 key={container.id}
                                 container={container}
                                 onAddItem={() => {
-                                    setTaskModal(true);
+                                    setModalTask(true);
                                     setCurrentContainerId(container.id);
                                 }}
                                 setShowTrash={setShowTrash}
@@ -84,7 +86,13 @@ export default function TaskTable() {
                                                     />
                                                 ))
                                             ) : (
-                                                <p className="w-full p-4 text-center text-xl font-semibold text-zinc-500">
+                                                <p
+                                                    className={`w-full p-4 text-center text-xl font-semibold ${
+                                                        container.color
+                                                            ? 'text-white'
+                                                            : 'text-zinc-500'
+                                                    }`}
+                                                >
                                                     {t('nothing')}
                                                 </p>
                                             )}

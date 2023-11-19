@@ -10,8 +10,8 @@ import { TaskType } from '../utility/Task-Types';
 
 type ItemsType = {
     task: TaskType;
-    containerId?: UniqueIdentifier;
-    setShowTrash?: React.Dispatch<React.SetStateAction<boolean>>;
+    containerId: UniqueIdentifier;
+    setShowTrash: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
@@ -35,7 +35,9 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
     const { t } = useTranslation();
 
     React.useEffect(() => {
-        setShowTrash && setShowTrash(isDragging);
+        setShowTrash(isDragging);
+
+        return () => setShowTrash(false);
     }, [isDragging, setShowTrash]);
 
     return (

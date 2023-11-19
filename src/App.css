@@ -21,6 +21,20 @@ a {
     background-color: var(--main);
 }
 
+textarea::-webkit-scrollbar {
+    background-color: transparent;
+
+    width: 5px;
+}
+textarea::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border: 1px solid var(--background);
+    border-radius: 5px;
+}
+textarea:hover::-webkit-scrollbar-thumb {
+    background-color: var(--main);
+}
+
 @media (max-width: 768px) {
     .wrapper {
         scrollbar-width: 0 !important;

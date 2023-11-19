@@ -1,17 +1,18 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import Button from './SmallComponents/Button';
+import Button from './UI/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './SmallComponents/Icon';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TaskContext } from '../context/TaskContext';
 import { ContainerType } from '../utility/Task-Types';
+import { getDarkerColor } from '../utility/getDarkerColor';
 
 interface ContainerProps {
     container: ContainerType;
-    onAddItem?: () => void;
-    setShowTrash?: React.Dispatch<React.SetStateAction<boolean>>;
+    onAddItem: () => void;
+    setShowTrash: React.Dispatch<React.SetStateAction<boolean>>;
     children: React.ReactNode;
 }
 
@@ -40,8 +41,21 @@ const Container = ({
     });
 
     React.useEffect(() => {
-        setShowTrash && setShowTrash(isDragging);
+        setShowTrash(isDragging);
+
+        return () => setShowTrash(false);
     }, [isDragging, setShowTrash]);
+
+    const constructStyles = () => {
+        let resStyles = '';
+
+        if (container.status === 'dead') resStyles += 'hover:!opacity-80 ';
+        if (isDragging || container.status === 'dead')
+            resStyles += '!opacity-50 ';
+        if (container.color) resStyles += '!text-white ';
+
+        return resStyles;
+    };
 
     return (
         <div
@@ -50,16 +64,13 @@ const Container = ({
             ref={setNodeRef}
             style={{
                 transition,
-                transform: CSS.Translate.toString(transform)
+                transform: CSS.Translate.toString(transform),
+                backgroundColor: container.color ? container.color : undefined
             }}
-            className={`${
-                container.status === 'dead' && 'hover:!opacity-80'
-            } group/container relative min-h-max w-full cursor-default rounded-xl border-none bg-gray-200 outline-none dark:bg-dark-obj dark:text-white ${
-                (isDragging || container.status === 'dead') && '!opacity-50'
-            }`}
+            className={`group/container relative min-h-max w-full cursor-default rounded-xl border-none bg-gray-200 outline-none dark:bg-dark-obj dark:text-white ${constructStyles()}`}
         >
             <AnimatePresence initial={false}>
-                {status !== 'dead' ? (
+                {container.status !== 'dead' ? (
                     <motion.div
                         className="flex h-full w-full flex-col gap-y-4 p-4"
                         exit={{ scale: 0 }}
@@ -77,14 +88,14 @@ const Container = ({
                                         container.id
                                     )
                                 }
-                                className="opacity-0 transition-all  group-hover/container:opacity-100"
+                                className="text-inherit opacity-0 transition-all group-hover/container:opacity-100"
                             />
 
                             <div className="flex flex-col gap-y-1">
                                 <h1 className="select-none text-xl">
                                     {container.title}
                                 </h1>
-                                <p className="text-sm">
+                                <p className="text-xs text-zinc-600 opacity-70">
                                     {container.description}
                                 </p>
                             </div>
@@ -93,15 +104,36 @@ const Container = ({
                                 icon="drag"
                                 listners={listeners}
                                 hover={false}
-                                className="ml-auto cursor-grab opacity-0 transition-all group-hover/container:opacity-100"
+                                className="ml-auto cursor-grab text-inherit opacity-0 transition-all group-hover/container:opacity-100"
                             />
                         </div>
 
                         {children}
                         <Button
-                            variant="ghost"
+                            isMotion={true}
+                            whileHover={
+                                container.color
+                                    ? {
+                                          backgroundColor: getDarkerColor(
+                                              container.color,
+                                              0.5
+                                          )
+                                      }
+                                    : undefined
+                            }
+                            variant={!container.color ? 'ghost' : null}
+                            style={
+                                container.color
+                                    ? {
+                                          backgroundColor: getDarkerColor(
+                                              container.color,
+                                              0.8
+                                          )
+                                      }
+                                    : undefined
+                            }
                             onClick={onAddItem}
-                            className="mt-auto"
+                            className="hover: mt-auto"
                         >
                             {t('modal.createTask')}
                         </Button>
@@ -111,7 +143,7 @@ const Container = ({
                         exit={{ scale: 0 }}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="flex h-full w-full cursor-pointer select-none items-center justify-center gap-2 text-3xl transition-all"
+                        className="min-h-sm flex h-full w-full cursor-pointer select-none items-center justify-center gap-2 text-3xl transition-all"
                         onClick={() =>
                             markDeadOrAlive &&
                             markDeadOrAlive('alive', 'container', container.id)

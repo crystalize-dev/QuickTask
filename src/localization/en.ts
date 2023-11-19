@@ -5,6 +5,8 @@ export default {
         no: 'No',
         submit: 'Submit',
         recover: 'Recover',
+        restriction: 'Max {{length}} symbols',
+        optional: 'Optional',
 
         langSwitcher: {
             lang: 'Language',
@@ -17,7 +19,13 @@ export default {
 
         modal: {
             confirm: 'Are you sure?',
-            createContainer: 'Create Category',
+            createContainer: {
+                title: 'Create Category',
+                name: 'Name',
+                description: 'Description',
+                titlePlaceholder: 'E.g. Work',
+                descriptionPlaceholder: 'E.g. Important meetings'
+            },
             createTask: 'Add task'
         },
 

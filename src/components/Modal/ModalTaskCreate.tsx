@@ -1,24 +1,22 @@
 import React from 'react';
 import ModalWrapper from './ModalWrapper';
-import Input from '../SmallComponents/Input';
-import Button from '../SmallComponents/Button';
-import ColorInput from '../SmallComponents/ColorInput';
+import Button from '../UI/Button';
+import ColorInput from '../UI/ColorInput';
 import { useTranslation } from 'react-i18next';
+import WithLabel from '../SmallComponents/WithLabel';
+import Textarea from '../UI/Textarea';
+import { TaskContext } from '../../context/TaskContext';
+import { TaskType } from '../../utility/Task-Types';
+import { v4 as uuidv4 } from 'uuid';
 
 interface TaskModalProps {
     taskModal: boolean;
     setTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
-    onSubmit: (e: React.FormEvent, type: 'container' | 'task') => void;
-    taskName: string;
-    setTaskName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ModalTaskCreate({
     taskModal,
-    setTaskModal,
-    onSubmit,
-    taskName,
-    setTaskName
+    setTaskModal
 }: TaskModalProps) {
     const { t } = useTranslation();
 
@@ -32,26 +30,54 @@ export default function ModalTaskCreate({
         '#007390',
         '#0d4c7f'
     ];
-    const [taskColor, setTaskColor] = React.useState<string | null>(
-        defaultColors[0]
-    );
+    const [taskColor, setTaskColor] = React.useState<string | null>(null);
+
+    const { addTask } = React.useContext(TaskContext);
+
+    const buttonRef = React.useRef(null);
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+
+            if (buttonRef.current)
+                (buttonRef.current as HTMLButtonElement).click();
+        }
+    };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target as HTMLFormElement);
+        const title = formData.get('taskName');
+
+        const newTask = {
+            id: `item-${uuidv4()}`,
+            title: title,
+            status: 'alive'
+        } as TaskType;
+
+        addTask(newTask);
+        setTaskModal(false);
+    };
 
     return (
         <ModalWrapper isVisible={taskModal} setVisible={setTaskModal}>
             <form
                 className="flex w-full flex-col items-start gap-y-4"
-                onSubmit={(e) => onSubmit(e, 'task')}
+                onSubmit={(e) => onSubmit(e)}
             >
                 <h1 className="text-3xl font-bold ">{t('modal.createTask')}</h1>
 
-                <Input
-                    type="text"
-                    placeholder="Item title"
-                    name="itemTitle"
-                    value={taskName}
-                    autoFocus={true}
-                    onChange={(e) => setTaskName(e.target.value)}
-                />
+                <WithLabel label={t('modal.createContainer.name')}>
+                    <Textarea
+                        name="taskName"
+                        maxRows={5}
+                        handleKeyDown={handleKeyDown}
+                        required={true}
+                        className="min-h-full w-full resize-none overflow-auto !border !border-solid border-zinc-300 p-2 transition-all focus:!border-main dark:border-white"
+                    />
+                </WithLabel>
 
                 <ColorInput
                     withTransparent={true}
@@ -60,7 +86,9 @@ export default function ModalTaskCreate({
                     activeColor={taskColor}
                 />
 
-                <Button type="submit">{t('submit')}</Button>
+                <Button ref={buttonRef} type="submit">
+                    {t('submit')}
+                </Button>
             </form>
         </ModalWrapper>
     );

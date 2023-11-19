@@ -4,7 +4,8 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 export type ContainerType = {
     id: UniqueIdentifier;
     title: string | undefined;
-    description: string;
+    description: string | null;
+    color: string | null;
     items: TaskType[];
     status: 'dead' | 'alive';
 };

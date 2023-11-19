@@ -1,7 +1,7 @@
 import './App.css';
 import { SettingsContext } from './context/SettingsContext';
 import { useSettings } from './hooks/useSettings';
-import AppRouter from './routing/AppRouter';
+import AppRouter from './routes/AppRouter';
 import './localization/localization';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

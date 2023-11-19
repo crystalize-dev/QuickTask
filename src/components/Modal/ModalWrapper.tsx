@@ -30,7 +30,7 @@ export default function ModalWrapper({
                     />
 
                     <div
-                        className="flex h-full w-full justify-center bg-white p-8 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-lg"
+                        className="flex h-full w-full justify-center border-2 border-solid border-main bg-white p-12 shadow-xl dark:bg-dark-obj dark:text-white md:h-fit md:w-fit md:items-center md:rounded-xl"
                         onMouseDown={(e) => e.stopPropagation()}
                     >
                         {children}

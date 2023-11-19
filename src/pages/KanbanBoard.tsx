@@ -5,35 +5,34 @@ import ArrowUp from '../components/SmallComponents/ArrowUp';
 import Navbar from '../components/Navbar';
 import TaskTable from '../components/TaskTable';
 import { TaskContext } from '../context/TaskContext';
+import ModalCreateContainer from '../components/Modal/ModalCreateContainer';
 
 export default function KanbanBoard() {
     const ref = React.useRef(null);
     const { scrollY } = useScroll({ container: ref });
 
+    const [modalContainer, setModalContainer] = React.useState(false);
+
     const {
-        ContainerModal,
-        TaskModal,
         containers,
         setContainers,
         setCurrentContainerId,
-        setContainerModal,
-        setTaskModal,
         markDeadOrAlive,
-        removeItem
+        removeItem,
+        addContainer,
+        addTask
     } = useTasks();
 
     return (
         <TaskContext.Provider
             value={{
-                ContainerModal,
-                TaskModal,
                 containers,
                 setContainers,
                 setCurrentContainerId,
-                setContainerModal,
-                setTaskModal,
                 markDeadOrAlive,
-                removeItem
+                removeItem,
+                addContainer,
+                addTask
             }}
         >
             <div
@@ -42,12 +41,13 @@ export default function KanbanBoard() {
             >
                 <ArrowUp scrollY={scrollY} />
 
-                <div className="px-1/20 mx-auto flex max-w-8xl flex-col gap-8 py-4">
-                    <ContainerModal />
+                <div className="mx-auto flex max-w-8xl flex-col gap-8 px-1/20 py-4">
+                    <ModalCreateContainer
+                        modal={modalContainer}
+                        setModal={setModalContainer}
+                    />
 
-                    <TaskModal />
-
-                    <Navbar />
+                    <Navbar setModalContainer={setModalContainer} />
 
                     <TaskTable />
                 </div>
