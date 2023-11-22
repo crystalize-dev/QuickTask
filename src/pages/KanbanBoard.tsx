@@ -6,12 +6,14 @@ import Navbar from '../components/Navbar';
 import TaskTable from '../components/TaskTable';
 import { TaskContext } from '../context/TaskContext';
 import ModalCreateContainer from '../components/Modal/ModalCreateContainer';
+import ModalTaskCreate from '../components/Modal/ModalTaskCreate';
 
 export default function KanbanBoard() {
     const ref = React.useRef(null);
     const { scrollY } = useScroll({ container: ref });
 
     const [modalContainer, setModalContainer] = React.useState(false);
+    const [modalTask, setModalTask] = React.useState(false);
 
     const {
         containers,
@@ -20,7 +22,9 @@ export default function KanbanBoard() {
         markDeadOrAlive,
         removeItem,
         addContainer,
-        addTask
+        addTask,
+        updateContainer,
+        updateTask
     } = useTasks();
 
     return (
@@ -32,7 +36,9 @@ export default function KanbanBoard() {
                 markDeadOrAlive,
                 removeItem,
                 addContainer,
-                addTask
+                addTask,
+                updateContainer,
+                updateTask
             }}
         >
             <div
@@ -47,9 +53,14 @@ export default function KanbanBoard() {
                         setModal={setModalContainer}
                     />
 
+                    <ModalTaskCreate
+                        taskModal={modalTask}
+                        setTaskModal={setModalTask}
+                    />
+
                     <Navbar setModalContainer={setModalContainer} />
 
-                    <TaskTable />
+                    <TaskTable setModalTask={setModalTask} />
                 </div>
             </div>
         </TaskContext.Provider>

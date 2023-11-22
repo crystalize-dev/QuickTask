@@ -10,9 +10,8 @@ import { PriorityType, TaskType, priorities } from '../../utility/Task-Types';
 import { v4 as uuidv4 } from 'uuid';
 import DateInput from '../UI/DateInput';
 import { useDate } from '../../hooks/useDate';
-import SelectInput from '../UI/SelectInput';
-import { motion } from 'framer-motion';
-import Icon from '../SmallComponents/Icon';
+import SelectInput, { OptionType } from '../UI/SelectInput';
+import { SingleValue } from 'react-select';
 
 interface TaskModalProps {
     taskModal: boolean;
@@ -36,7 +35,8 @@ export default function ModalTaskCreate({
         '#0d4c7f'
     ];
     const [taskColor, setTaskColor] = React.useState<string | null>(null);
-    const [error, setError] = React.useState<null | string>(' ');
+    const [requiredDeadline, setRequiredDeadline] =
+        React.useState<boolean>(false);
 
     const { addTask } = React.useContext(TaskContext);
 
@@ -59,11 +59,6 @@ export default function ModalTaskCreate({
         const deadline = formData.get('deadline') as string;
         const priority = formData.get('priority') as PriorityType;
 
-        if (priority === 'Based on deadline' && !deadline) {
-            setError(t('modal.createTask.nullDeadlineError'));
-            return;
-        }
-
         const newTask = {
             id: `item-${uuidv4()}`,
             title: title,
@@ -78,9 +73,12 @@ export default function ModalTaskCreate({
         setTaskColor(null);
     };
 
-    React.useEffect(() => {
-        setError(' ');
-    }, [taskModal]);
+    const handleDeadlineChange = (
+        newValue: SingleValue<OptionType<PriorityType>>
+    ) => {
+        if (newValue?.value === 'Based on deadline') setRequiredDeadline(true);
+        else setRequiredDeadline(false);
+    };
 
     return (
         <ModalWrapper isVisible={taskModal} setVisible={setTaskModal}>
@@ -91,19 +89,6 @@ export default function ModalTaskCreate({
                 <h1 className="text-3xl font-bold ">
                     {t('modal.createTask.title')}
                 </h1>
-
-                <motion.div
-                    animate={
-                        error !== ' '
-                            ? { opacity: 1, x: 0, pointerEvents: 'all' }
-                            : { opacity: 0, x: -30, pointerEvents: 'none' }
-                    }
-                    initial={{ opacity: 0, x: -30, pointerEvents: 'none' }}
-                    className="flex w-full items-center justify-between rounded-md bg-red-500 p-3"
-                >
-                    <p>{error}</p>
-                    <Icon icon="xmark" onClick={() => setError(' ')} />
-                </motion.div>
 
                 <WithLabel label={t('description')} className="w-full">
                     <Textarea
@@ -121,6 +106,7 @@ export default function ModalTaskCreate({
                     <WithLabel label={t('deadline')}>
                         <DateInput
                             name="deadline"
+                            required={requiredDeadline}
                             minDate={curDate}
                             maxDate="9999-12-31"
                         />
@@ -130,8 +116,9 @@ export default function ModalTaskCreate({
                         <SelectInput
                             required={true}
                             name="priority"
+                            onChange={handleDeadlineChange}
                             optionsRaw={priorities}
-                            defaulValue={priorities[0]}
+                            defaultValue={priorities[0]}
                         />
                     </WithLabel>
                 </div>

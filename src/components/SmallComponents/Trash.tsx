@@ -26,24 +26,22 @@ export default function Trash({ isDragging }: TrashProps) {
         setVisible(isDragging);
     }, [settings.isFixedTrash, isDragging]);
 
-    // React.useEffect(() => {
-    //     console.log(visible);
-    // }, [visible, isDragging]);
-
     return (
         <div
             ref={setNodeRef}
             {...attributes}
             id="trash"
             className={`${
-                visible ? 'opacity-1' : 'opacity-0'
+                visible ? 'opacity-1 delay-500' : 'opacity-0'
             } fixed -left-2 top-0 z-9999 hidden h-full w-1/20 !cursor-default items-center justify-center border-2 border-dashed border-transparent bg-main text-black transition-all lg:flex ${
-                isOver && '!w-1/10 !border-main !bg-transparent'
+                isOver && '!w-1/10 !border-main !bg-transparent !delay-0'
             }`}
         >
             <Icon
                 icon="trash"
-                className="pointer-events-none text-white"
+                className={`pointer-events-none text-white ${
+                    isOver && '!text-main'
+                }`}
                 hover={false}
             />
         </div>

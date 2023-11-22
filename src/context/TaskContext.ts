@@ -21,6 +21,8 @@ type TaskContextProps = {
     ) => Promise<void>;
     addTask: (task: TaskType) => void;
     addContainer: (container: ContainerType) => void;
+    updateContainer: (newContainer: ContainerType) => void;
+    updateTask: (containerId: UniqueIdentifier, newTask: TaskType) => void;
 };
 
 export const TaskContext = React.createContext({} as TaskContextProps);

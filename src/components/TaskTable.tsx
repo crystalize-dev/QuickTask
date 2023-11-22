@@ -10,9 +10,12 @@ import nothingFound from '../assets/nothingFound.png';
 import { useTranslation } from 'react-i18next';
 import Dragoverlay from './Dragoverlay';
 import { TaskContext } from '../context/TaskContext';
-import ModalTaskCreate from './Modal/ModalTaskCreate';
 
-export default function TaskTable() {
+interface TaskTableProps {
+    setModalTask: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function TaskTable({ setModalTask }: TaskTableProps) {
     const { containers, setContainers, setCurrentContainerId } =
         React.useContext(TaskContext);
 
@@ -25,7 +28,6 @@ export default function TaskTable() {
     } = useDrag(containers, setContainers);
 
     const [showTrash, setShowTrash] = React.useState(false);
-    const [modalTask, setModalTask] = React.useState(false);
 
     const { t } = useTranslation();
 
@@ -37,11 +39,6 @@ export default function TaskTable() {
                     : 'grid grid-cols-1 gap-6 lg:grid-cols-3'
             }`}
         >
-            <ModalTaskCreate
-                taskModal={modalTask}
-                setTaskModal={setModalTask}
-            />
-
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCorners}

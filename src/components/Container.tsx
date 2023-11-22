@@ -77,7 +77,7 @@ const Container = ({
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                     >
-                        <div className="flex items-center gap-4">
+                        <div className="relative flex w-full items-center justify-between gap-4">
                             <Icon
                                 icon="xmark"
                                 onClick={() =>
@@ -88,10 +88,10 @@ const Container = ({
                                         container.id
                                     )
                                 }
-                                className="text-inherit opacity-0 transition-all group-hover/container:opacity-100"
+                                className="absolute text-inherit opacity-0 transition-all group-hover/container:opacity-100"
                             />
 
-                            <div className="flex flex-col gap-y-1">
+                            <div className="ml-8 flex flex-col gap-y-1">
                                 <h1 className="select-none text-xl">
                                     {container.title}
                                 </h1>
@@ -101,10 +101,15 @@ const Container = ({
                             </div>
 
                             <Icon
+                                icon="settings"
+                                className="absolute right-10 text-inherit opacity-0 transition-all group-hover/container:opacity-100"
+                            />
+
+                            <Icon
                                 icon="drag"
                                 listners={listeners}
                                 hover={false}
-                                className="ml-auto cursor-grab text-inherit opacity-0 transition-all group-hover/container:opacity-100"
+                                className="absolute right-2 cursor-grab text-inherit opacity-0 transition-all group-hover/container:opacity-100"
                             />
                         </div>
 
@@ -143,7 +148,7 @@ const Container = ({
                         exit={{ scale: 0 }}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="min-h-sm flex h-full w-full cursor-pointer select-none items-center justify-center gap-2 text-3xl transition-all"
+                        className="flex h-full min-h-sm w-full cursor-pointer select-none items-center justify-center gap-2 text-3xl transition-all"
                         onClick={() =>
                             markDeadOrAlive &&
                             markDeadOrAlive('alive', 'container', container.id)

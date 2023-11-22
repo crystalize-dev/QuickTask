@@ -1,64 +1,55 @@
 import { useTranslation } from 'react-i18next';
-import Select, { ActionMeta, SingleValue } from 'react-select';
+import Select, { PropsValue, SingleValue } from 'react-select';
+import { getPriorityLocale } from '../../utility/getPriorityLocale';
+import React from 'react';
 
-type OptionType = { label: string; value: unknown };
+export type OptionType<T> = { label: string; value: T };
 
 interface IProps<T> {
     optionsRaw: Array<T>;
     required?: boolean;
-    onChange?: (
-        newValue: SingleValue<OptionType>,
-        actionMeta: ActionMeta<OptionType>
-    ) => void;
-    defaulValue: T;
+    onChange?: (newValue: SingleValue<OptionType<T>>) => void;
+    defaultValue: T;
     name: string;
 }
 
 function SelectInput<T extends string>({
     optionsRaw,
-    defaulValue,
+    defaultValue,
     onChange,
     name,
     required
 }: IProps<T>) {
     const { t } = useTranslation();
 
-    const getLabel = (label: string) => {
-        switch (label) {
-            case 'Based on deadline':
-                return t('basedOn');
-            case 'low':
-                return t('low');
-            case 'medium':
-                return t('medium');
-            case 'high':
-                return t('high');
-            case 'very high':
-                return t('veryHigh');
-            default:
-                return label;
-        }
-    };
-
     const options: OptionType[] = [
         ...optionsRaw.map((option) => {
             return {
-                label: getLabel(option),
+                label: getPriorityLocale(option, t),
                 value: option
             };
         })
     ];
 
-    const defaultValue = {
-        label: getLabel(defaulValue),
-        value: defaulValue
-    } as OptionType;
+    const defaultOption = {
+        label: getPriorityLocale(defaultValue, t),
+        value: defaultValue
+    } as OptionType<T>;
+
+    const [value, setValue] = React.useState<
+        PropsValue<OptionType<T>> | undefined
+    >(defaultOption);
+
+    const handleChange = (newValue: SingleValue<OptionType<T>>) => {
+        onChange && onChange(newValue);
+        setValue(newValue);
+    };
 
     return (
         <Select
             name={name}
             isSearchable={false}
-            onChange={onChange}
+            onChange={handleChange}
             required={required}
             classNames={{
                 container: () => '!min-w-full lg:!w-72 !select-none !z-999',
@@ -79,8 +70,8 @@ function SelectInput<T extends string>({
                     color: state.isSelected ? 'white !important' : 'unset'
                 })
             }}
+            value={value}
             options={options}
-            defaultValue={defaultValue}
         />
     );
 }

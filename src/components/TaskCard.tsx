@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { TaskContext } from '../context/TaskContext';
 import { TaskType } from '../utility/Task-Types';
 import { getEmoji } from '../utility/getEmojiPriority';
+import { getPriorityLocale } from '../utility/getPriorityLocale';
 
 type ItemsType = {
     task: TaskType;
@@ -80,13 +81,25 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                                     task.id
                                 )
                             }
-                            className="absolute left-2 top-3 w-6 align-baseline opacity-0 transition-all group-hover:opacity-100"
+                            className="absolute left-2 top-3 w-6 align-baseline text-inherit opacity-0 transition-all group-hover:opacity-100"
                         />
 
-                        <div className="h-full w-full px-10 py-8">
+                        <div className="h-full w-full px-9 py-4">
                             <p className="whitespace-pre-line break-all">
-                                {getEmoji(task.priority) + ' ' + task.title}
+                                {task.title}
                             </p>
+                            <div
+                                className={`mt-4 flex items-center justify-between text-sm font-semibold text-zinc-300 dark:text-zinc-600 ${
+                                    task.color && '!text-zinc-500'
+                                }`}
+                            >
+                                <p>{task.deadline}</p>
+                                <p>
+                                    {getPriorityLocale(task.priority, t) +
+                                        ' ' +
+                                        getEmoji(task.priority)}
+                                </p>
+                            </div>
                         </div>
 
                         <Icon

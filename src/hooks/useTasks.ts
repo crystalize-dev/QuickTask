@@ -123,6 +123,29 @@ export const useTasks = () => {
         }
     };
 
+    const updateTask = (containerId: UniqueIdentifier, newTask: TaskType) => {
+        const newContainers = [...containers];
+        const targetContainer = newContainers.findIndex(
+            (container) => container.id === containerId
+        );
+        const itemIndex = newContainers[targetContainer].items.findIndex(
+            (item) => item.id === newTask.id
+        );
+        newContainers[targetContainer].items[itemIndex] = newTask;
+
+        setContainers(newContainers);
+    };
+
+    const updateContainer = (newContainer: ContainerType) => {
+        const newContainers = [...containers];
+        const containerIndex = newContainers.findIndex(
+            (container) => container.id === newContainer.id
+        );
+        newContainers[containerIndex] = newContainer;
+
+        setContainers(newContainers);
+    };
+
     React.useEffect(() => {
         const containers = localStorage.getItem('containers');
         if (containers) {
@@ -156,6 +179,8 @@ export const useTasks = () => {
         addTask,
         setCurrentContainerId,
         markDeadOrAlive,
-        removeItem
+        removeItem,
+        updateContainer,
+        updateTask
     };
 };

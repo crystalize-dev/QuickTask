@@ -16,6 +16,7 @@ export default {
         medium: 'Средний',
         high: 'Высокий',
         veryHigh: 'Очень высокий',
+        clearAll: 'Удалить все',
 
         langSwitcher: {
             lang: 'Язык',
@@ -36,7 +37,8 @@ export default {
             createTask: {
                 title: 'Добавить задачу',
                 titlePlaceholder: 'Напр. Приготовить ужин',
-                nullDeadlineError: "Установите дедлайн для данного типа приоритета!"
+                nullDeadlineError:
+                    'Установите дедлайн для данного типа приоритета!'
             }
         },
 
