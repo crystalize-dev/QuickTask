@@ -64,8 +64,9 @@ function SelectInput<T extends string>({
                 container: () => '!w-72 !select-none !z-999',
                 control: () =>
                     '!bg-transparent !p-1 !h-12 !rounded-md !text-black dark:!text-white !border-2 !border-main !cursor-pointer !shadow-none',
-                menu: () => 'dark:!bg-dark-obj !w-max !min-w-full !rounded-md',
-                menuList: () => '!p-0 !rounded-md',
+                menu: () =>
+                    'dark:!bg-dark-obj !w-max !border-2 !border-main !border-solid !min-w-full !rounded-md',
+                menuList: () => '!p-0',
                 option: () =>
                     '!whitespace-nowrap !w-full hover:!bg-main dark:!text-white !text-black hover:!text-white !cursor-pointer',
                 singleValue: () => 'dark:!text-white !text-black',

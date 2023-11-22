@@ -18,7 +18,7 @@ export type TaskType = {
     color: string | null;
 };
 
-export type StatusType = 'alive' | 'dead';
+export type StatusType = 'alive' | 'dead' | "corrupted";
 
 export type PriorityType =
     | 'very high'
@@ -28,9 +28,9 @@ export type PriorityType =
     | 'Based on deadline';
 
 export const priorities: Array<PriorityType> = [
-    'Based on deadline',
     'low',
     'medium',
     'high',
-    'very high'
+    'very high',
+    'Based on deadline'
 ];

@@ -7,6 +7,7 @@ import Icon from './SmallComponents/Icon';
 import { useTranslation } from 'react-i18next';
 import { TaskContext } from '../context/TaskContext';
 import { TaskType } from '../utility/Task-Types';
+import { getEmoji } from '../utility/getEmojiPriority';
 
 type ItemsType = {
     task: TaskType;
@@ -63,11 +64,11 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                 transform: CSS.Translate.toString(transform),
                 backgroundColor: task.color ? task.color : undefined
             }}
-            className={`group relative w-full max-w-full cursor-default rounded-xl border-none bg-white px-10 py-8 shadow-lg outline-none dark:bg-darker-bg dark:text-white ${constructStyles()}`}
+            className={`group relative w-full max-w-full cursor-default rounded-xl border-none bg-white shadow-lg outline-none dark:bg-darker-bg dark:text-white ${constructStyles()}`}
         >
             <AnimatePresence initial={false}>
                 {task.status !== 'dead' ? (
-                    <div className="flex items-center gap-4">
+                    <div className="flex h-full w-full items-center gap-4">
                         <Icon
                             icon="xmark"
                             onClick={() =>
@@ -82,9 +83,11 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                             className="absolute left-2 top-3 w-6 align-baseline opacity-0 transition-all group-hover:opacity-100"
                         />
 
-                        <p className="whitespace-pre-line break-all">
-                            {task.title}
-                        </p>
+                        <div className="h-full w-full px-10 py-8">
+                            <p className="whitespace-pre-line break-all">
+                                {getEmoji(task.priority) + ' ' + task.title}
+                            </p>
+                        </div>
 
                         <Icon
                             icon="drag"
@@ -98,7 +101,7 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                         exit={{ scale: 0 }}
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="text-1xl flex h-full w-full cursor-pointer select-none items-center justify-center gap-2"
+                        className="text-1xl flex h-full w-full cursor-pointer select-none items-center justify-center gap-2 px-2 py-4"
                         onClick={() =>
                             markDeadOrAlive &&
                             markDeadOrAlive(

@@ -35,7 +35,8 @@ export default {
             },
             createTask: {
                 title: 'Add task',
-                titlePlaceholder: 'E.g. Do some homework'
+                titlePlaceholder: 'E.g. Do some homework',
+                nullDeadlineError: "Based on deadline priority must be set with deadline!"
             }
         },
 

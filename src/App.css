@@ -29,7 +29,7 @@ textarea::-webkit-scrollbar {
 textarea::-webkit-scrollbar-thumb {
     background-color: transparent;
     border: 1px solid var(--background);
-    border-radius: 5px;
+    border-radius: 0 2px 2px 0;
 }
 textarea:hover::-webkit-scrollbar-thumb {
     background-color: var(--main);

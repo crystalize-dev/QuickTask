@@ -35,7 +35,8 @@ export default {
             },
             createTask: {
                 title: 'Добавить задачу',
-                titlePlaceholder: 'Напр. Приготовить ужин'
+                titlePlaceholder: 'Напр. Приготовить ужин',
+                nullDeadlineError: "Установите дедлайн для данного типа приоритета!"
             }
         },
 
