@@ -113,11 +113,11 @@ export default function ModalTaskCreate({
                         handleKeyDown={handleKeyDown}
                         required={true}
                         placeholder={t('modal.createTask.titlePlaceholder')}
-                        className="resize-none p-2"
+                        className="w-full resize-none p-2"
                     />
                 </WithLabel>
 
-                <div className="flex h-fit w-full items-center justify-between gap-2">
+                <div className="flex h-fit w-full flex-col items-start justify-between gap-2 lg:flex-row lg:items-center">
                     <WithLabel label={t('deadline')}>
                         <DateInput
                             name="deadline"

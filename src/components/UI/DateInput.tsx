@@ -18,7 +18,7 @@ export default function DateInput({
             type="date"
             min={minDate}
             max={maxDate}
-            className="!h-12 w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-main focus:ring-0"
+            className="!h-12 min-w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-main focus:ring-0"
         />
     );
 }

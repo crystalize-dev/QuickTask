@@ -61,7 +61,7 @@ function SelectInput<T extends string>({
             onChange={onChange}
             required={required}
             classNames={{
-                container: () => '!w-72 !select-none !z-999',
+                container: () => '!min-w-full lg:!w-72 !select-none !z-999',
                 control: () =>
                     '!bg-transparent !p-1 !h-12 !rounded-md !text-black dark:!text-white !border-2 !border-main !cursor-pointer !shadow-none',
                 menu: () =>
