@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import WithLabel from '../SmallComponents/WithLabel';
 import { TaskContext } from '../../context/TaskContext';
 import { v4 as uuidv4 } from 'uuid';
-import { ContainerType } from '../../utility/Task-Types';
+import { ContainerType } from '../../utility/Types/Task-Types';
 import Input from '../UI/Input';
 import ColorInput from '../UI/ColorInput';
+import { defaultContainerColors } from '../../utility/Data/colors';
 
 interface ContainerModalProps {
     modal: boolean;
@@ -18,20 +19,10 @@ export default function ModalCreateContainer({
     modal,
     setModal
 }: ContainerModalProps) {
-    const defaultColors = [
-        '#4ec20a',
-        '#359783',
-        '#cc8100',
-        '#b41825',
-        '#005266',
-        '#0a375c'
-    ];
     const [activeColor, setActiveColor] = React.useState<string | null>(null);
 
     const { t } = useTranslation();
     const { addContainer } = React.useContext(TaskContext);
-
-    const buttonRef = React.useRef(null);
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -94,18 +85,13 @@ export default function ModalCreateContainer({
                 </WithLabel>
 
                 <ColorInput
-                    defaultMap={defaultColors}
+                    defaultMap={defaultContainerColors}
                     activeColor={activeColor}
                     withTransparent={true}
                     onClick={setActiveColor}
                 />
 
-                <Button
-                    ref={buttonRef}
-                    variant={'main'}
-                    type="submit"
-                    className="mt-4"
-                >
+                <Button variant={'main'} type="submit" className="mt-4">
                     {t('submit')}
                 </Button>
             </form>

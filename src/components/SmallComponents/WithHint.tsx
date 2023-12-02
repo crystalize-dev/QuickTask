@@ -1,6 +1,9 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DirectionType, getDirection } from '../../utility/getDirection';
+import {
+    DirectionType,
+    getDirection
+} from '../../utility/Functions/getDirection';
 
 interface IProps {
     children: React.ReactNode;

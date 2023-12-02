@@ -1,5 +1,5 @@
 import React from 'react';
-import { SettingsType } from '../utility/Settings-Types';
+import { SettingsType } from '../utility/Types/Settings-Types';
 
 export const useSettings = () => {
     const [settings, setSettings] = React.useState<SettingsType>({

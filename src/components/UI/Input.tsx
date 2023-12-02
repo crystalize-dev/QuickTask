@@ -6,6 +6,9 @@ interface InputProps {
     placeholder?: string;
     autoFocus?: boolean;
     required?: boolean;
+    value?: string | null;
+    setValue?: React.Dispatch<React.SetStateAction<string | null>>;
+    onChange?: (e: React.ChangeEvent) => void;
     options?: {
         maxSymbols?: number;
         minSymbols?: number;
@@ -14,14 +17,17 @@ interface InputProps {
 
 const Input = ({
     name,
+    value,
+    setValue,
+    onChange,
     placeholder,
     autoFocus,
     required,
     options
 }: InputProps) => {
-    const [value, setValue] = React.useState('');
+    const [defaultValue, setDefaultValue] = React.useState<string>('');
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const text = (e.target as HTMLInputElement).value;
 
         if (options) {
@@ -33,7 +39,15 @@ const Input = ({
             }
         }
 
-        setValue(text);
+        if (onChange) {
+            onChange(e);
+        }
+
+        if (setValue) {
+            setValue(text);
+        } else {
+            setDefaultValue(text);
+        }
     };
 
     return (
@@ -41,11 +55,11 @@ const Input = ({
             required={required}
             autoFocus={autoFocus}
             name={name}
-            value={value}
+            value={value ? value : defaultValue}
             autoComplete={'off'}
             placeholder={placeholder}
-            onChange={(e) => onChange(e)}
-            className="w-full rounded-md border-2 border-main bg-transparent p-2 outline-none transition-all focus:!border-main focus:ring-0"
+            onChange={(e) => handleChange(e)}
+            className="w-full rounded-md border-2 border-main bg-transparent p-2 text-black outline-none transition-all focus:!border-main focus:ring-0 dark:text-white"
         />
     );
 };

@@ -16,7 +16,6 @@ export default {
         medium: 'Medium',
         high: 'High',
         veryHigh: 'Very high',
-        clearAll: 'Clear All',
 
         langSwitcher: {
             lang: 'Language',
@@ -39,6 +38,11 @@ export default {
                 titlePlaceholder: 'E.g. Do some homework',
                 nullDeadlineError:
                     'Based on deadline priority must be set with deadline!'
+            },
+            updateContainer: {
+                clearAll: 'Remove all tasks',
+                editting: 'Edditing',
+                sure: 'Are you sure ? ({{tick}})'
             }
         },
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ContainerType, TaskType } from '../utility/Task-Types';
+import { ContainerType, TaskType } from '../utility/Types/Task-Types';
 import { UniqueIdentifier } from '@dnd-kit/core';
-import { findValue } from '../utility/findValue';
+import { findValue } from '../utility/Functions/findValue';
 
 export const useTasks = () => {
     const [containers, setContainers] = React.useState<ContainerType[]>([]);

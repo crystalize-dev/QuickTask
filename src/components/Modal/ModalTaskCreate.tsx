@@ -6,12 +6,17 @@ import { useTranslation } from 'react-i18next';
 import WithLabel from '../SmallComponents/WithLabel';
 import Textarea from '../UI/Textarea';
 import { TaskContext } from '../../context/TaskContext';
-import { PriorityType, TaskType, priorities } from '../../utility/Task-Types';
+import {
+    PriorityType,
+    TaskType,
+    priorities
+} from '../../utility/Types/Task-Types';
 import { v4 as uuidv4 } from 'uuid';
 import DateInput from '../UI/DateInput';
 import { useDate } from '../../hooks/useDate';
 import SelectInput, { OptionType } from '../UI/SelectInput';
 import { SingleValue } from 'react-select';
+import { defaultTaskColors } from '../../utility/Data/colors';
 
 interface TaskModalProps {
     taskModal: boolean;
@@ -26,14 +31,6 @@ export default function ModalTaskCreate({
 
     const { curDate } = useDate();
 
-    const defaultColors = [
-        '#57da0b',
-        '#54c3ac',
-        '#ffa402',
-        '#d31d2b',
-        '#007390',
-        '#0d4c7f'
-    ];
     const [taskColor, setTaskColor] = React.useState<string | null>(null);
     const [requiredDeadline, setRequiredDeadline] =
         React.useState<boolean>(false);
@@ -125,7 +122,7 @@ export default function ModalTaskCreate({
 
                 <ColorInput
                     withTransparent={true}
-                    defaultMap={defaultColors}
+                    defaultMap={defaultTaskColors}
                     onClick={setTaskColor}
                     activeColor={taskColor}
                 />

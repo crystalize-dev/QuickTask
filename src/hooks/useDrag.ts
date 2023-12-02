@@ -10,8 +10,8 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import React from 'react';
-import { findValue } from '../utility/findValue';
-import { ContainerType } from '../utility/Task-Types';
+import { findValue } from '../utility/Functions/findValue';
+import { ContainerType } from '../utility/Types/Task-Types';
 
 export const useDrag = (
     containers: ContainerType[],

@@ -16,7 +16,6 @@ export default {
         medium: 'Средний',
         high: 'Высокий',
         veryHigh: 'Очень высокий',
-        clearAll: 'Удалить все',
 
         langSwitcher: {
             lang: 'Язык',
@@ -39,6 +38,10 @@ export default {
                 titlePlaceholder: 'Напр. Приготовить ужин',
                 nullDeadlineError:
                     'Установите дедлайн для данного типа приоритета!'
+            },
+            updateContainer: {
+                clearAll: 'Удалить все задачи',
+                editting: 'Редактирование'
             }
         },
 

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Select, { PropsValue, SingleValue } from 'react-select';
-import { getPriorityLocale } from '../../utility/getPriorityLocale';
+import { getPriorityLocale } from '../../utility/Functions/getPriorityLocale';
 import React from 'react';
 
 export type OptionType<T> = { label: string; value: T };

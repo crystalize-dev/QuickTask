@@ -6,9 +6,9 @@ import React from 'react';
 import Icon from './SmallComponents/Icon';
 import { useTranslation } from 'react-i18next';
 import { TaskContext } from '../context/TaskContext';
-import { TaskType } from '../utility/Task-Types';
-import { getEmoji } from '../utility/getEmojiPriority';
-import { getPriorityLocale } from '../utility/getPriorityLocale';
+import { TaskType } from '../utility/Types/Task-Types';
+import { getEmoji } from '../utility/Functions/getEmojiPriority';
+import { getPriorityLocale } from '../utility/Functions/getPriorityLocale';
 
 type ItemsType = {
     task: TaskType;
@@ -65,7 +65,7 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                 transform: CSS.Translate.toString(transform),
                 backgroundColor: task.color ? task.color : undefined
             }}
-            className={`group relative w-full max-w-full cursor-default rounded-xl border-none bg-white shadow-lg outline-none dark:bg-darker-bg dark:text-white ${constructStyles()}`}
+            className={`group relative w-full max-w-full cursor-default rounded-xl border-none bg-white text-black shadow-lg outline-none dark:bg-darker-bg dark:text-white ${constructStyles()}`}
         >
             <AnimatePresence initial={false}>
                 {task.status !== 'dead' ? (
@@ -84,8 +84,8 @@ const TaskCard = ({ task, setShowTrash, containerId }: ItemsType) => {
                             className="absolute left-2 top-3 w-6 align-baseline text-inherit opacity-0 transition-all group-hover:opacity-100"
                         />
 
-                        <div className="h-full w-full px-9 py-4">
-                            <p className="whitespace-pre-line break-all">
+                        <div className="h-full w-full px-9 py-4 text-inherit">
+                            <p className="whitespace-pre-line break-all text-inherit">
                                 {task.title}
                             </p>
                             <div

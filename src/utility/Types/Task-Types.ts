@@ -3,7 +3,7 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 // Types
 export type ContainerType = {
     id: UniqueIdentifier;
-    title: string | undefined;
+    title: string | null;
     description: string | null;
     color: string | null;
     items: TaskType[];
@@ -18,7 +18,7 @@ export type TaskType = {
     color: string | null;
 };
 
-export type StatusType = 'alive' | 'dead' | "corrupted";
+export type StatusType = 'alive' | 'dead' | 'corrupted';
 
 export type PriorityType =
     | 'very high'

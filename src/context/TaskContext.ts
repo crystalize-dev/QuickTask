@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContainerType, TaskType } from '../utility/Task-Types';
+import { ContainerType, TaskType } from '../utility/Types/Task-Types';
 import { UniqueIdentifier } from '@dnd-kit/core';
 
 type TaskContextProps = {

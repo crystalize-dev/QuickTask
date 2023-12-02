@@ -1,3 +1,9 @@
+# To Fix:
+
+- removes all on update
+- Container ButtonColor change on update
+
+
 # ToDo:
 
 - RemoveAll with confirmation
